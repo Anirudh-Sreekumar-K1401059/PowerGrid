@@ -16,9 +16,12 @@ public class Player implements Comparable{
       myplants.add(plant);
    }
 
-   public removePlants (PowerPlant plant){
-      {
+   public void removePlants (PowerPlant plant){
+      myplants.remove(plant);
+   }
 
+   public void updateElektros(int elektross){
+      elektros = elektros + elektross;
    }
 
 

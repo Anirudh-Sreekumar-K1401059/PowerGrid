@@ -29,6 +29,7 @@ public Panel() {
 				
 				public void click(MouseEvent e)//runs when this object is clicked and clickable==true
 				{
+					
 					System.out.println("clicked");
 					setLocation(x+100,y); //One can use variables that are from Rectangle, DisplayElement, and the Rectangle class directly
 				}

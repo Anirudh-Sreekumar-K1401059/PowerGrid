@@ -1,0 +1,5 @@
+public class Player implements comparable{
+    ArrayList<PowerPLant> myplants = new ArrayList<>();
+
+
+}

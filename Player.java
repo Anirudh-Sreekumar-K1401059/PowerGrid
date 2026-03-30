@@ -1,8 +1,26 @@
-public class Player implements comparable{
+public class Player implements Comparable{
+//Variables 
    private ArrayList<PowerPLant> myplants = new ArrayList<>();
    private ArrayList<City> myCities = new ArrayList<>();
-   public HashMap<Rscources, Integer> myRes = new HashMap<>();
+   public HashMap<Resources, Integer> myRes = new HashMap<>();
    private int elektros; 
+   private int numCitiesPowered; 
    private boolean didPass;
+   private boolean isFinished; 
+   
+   public void addCity(City city){
+      City.add(city);
+   }
+
+   public void addPlant (PowerPlant plant){
+      myplants.add(plant);
+   }
+
+   public removePlants (PowerPlant plant){
+      {
+
+   }
+
+
    
 }

@@ -1,3 +1,5 @@
+import java.util.*;
+
 public class City {
     String name;
     String region;
@@ -12,7 +14,9 @@ public class City {
     public void changeCost(int newCost){
         cost = newCost;
     }
-    public boolean isOpen(){
-       
-    }
+   /*  public boolean isOpen(){
+       if(isAvailable){
+        isValidLoc = true;
+       } 
+    }*/
 }

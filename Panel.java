@@ -25,6 +25,7 @@ public Panel() {
 				{
 					g.setColor(Color.red);
 					g.fillRect(x(x),y(y),x(width),y(height));//x() and y() scale the objects to the screen
+					
 				}
 				
 				public void click(MouseEvent e)//runs when this object is clicked and clickable==true

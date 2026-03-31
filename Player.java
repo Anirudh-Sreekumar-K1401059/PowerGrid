@@ -1,15 +1,17 @@
+import java.util.*;
+
 public class Player implements Comparable{
 //Variables 
-   private ArrayList<PowerPLant> myplants = new ArrayList<>();
+   private ArrayList<PowerPlant> myplants = new ArrayList<>();
    private ArrayList<City> myCities = new ArrayList<>();
-   public HashMap<Resources, Integer> myRes = new HashMap<>();
-   private int elektros; 
+   public HashMap<Resource, Integer> myRes = new HashMap<>();   private int elektros; 
    private int numCitiesPowered; 
    private boolean didPass;
    private boolean isFinished; 
    
+//Methods
    public void addCity(City city){
-      City.add(city);
+      myCities.add(city);
    }
 
    public void addPlant (PowerPlant plant){
@@ -23,7 +25,14 @@ public class Player implements Comparable{
    public void updateElektros(int elektross){
       elektros = elektros + elektross;
    }
+   public int canPower(){
+      return numCitiesPowered;
+   }
 
+   @Override
+   public int compareTo(Object o) {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'compareTo'");
+   }
 
-   
 }

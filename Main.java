@@ -1,4 +1,3 @@
-import java.awt.Rectangle;
 
 public class Main {
 
@@ -8,3 +7,4 @@ public class Main {
 	}
 
 }
+

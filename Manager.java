@@ -36,22 +36,22 @@ public class Manager{
 
     public void setPowerPlants() {
         try{
-        BufferedImage p11 = ImageIO.read(Panel.class.getResource("/plantCards/plant11.png"));
-        BufferedImage p12 = ImageIO.read(Panel.class.getResource("/plantCards/plant12.png"));
-        BufferedImage p13 = ImageIO.read(Panel.class.getResource("/plantCards/plant13.png"));
-        BufferedImage p14 = ImageIO.read(Panel.class.getResource("/plantCards/plant14.png"));
-        BufferedImage p43 = ImageIO.read(Panel.class.getResource("/plantCards/plant11.png"));
-        BufferedImage p44 = ImageIO.read(Panel.class.getResource("/plantCards/plant11.png"));
-        BufferedImage p45 = ImageIO.read(Panel.class.getResource("/plantCards/plant11.png"));
-        BufferedImage p46 = ImageIO.read(Panel.class.getResource("/plantCards/plant11.png"));
-        BufferedImage p47 = ImageIO.read(Panel.class.getResource("/plantCards/plant11.png"));
-        BufferedImage p48 = ImageIO.read(Panel.class.getResource("/plantCards/plant11.png"));
-        BufferedImage p49 = ImageIO.read(Panel.class.getResource("/plantCards/plant11.png"));
-        BufferedImage p50 = ImageIO.read(Panel.class.getResource("/plantCards/plant11.png"));
+        BufferedImage p31 = ImageIO.read(Panel.class.getResource("/powerplants/plant31.png"));
+        BufferedImage p32 = ImageIO.read(Panel.class.getResource("/powerplants/plant32.png"));
+        BufferedImage p33 = ImageIO.read(Panel.class.getResource("/powerplants/plant33.png"));
+        BufferedImage p34 = ImageIO.read(Panel.class.getResource("/powerplants/plant34.png"));
+        BufferedImage p35 = ImageIO.read(Panel.class.getResource("/powerplants/plant35.png"));
+        BufferedImage p36 = ImageIO.read(Panel.class.getResource("/powerplants/plant36.png"));
+        BufferedImage p37 = ImageIO.read(Panel.class.getResource("/powerplants/plant37.png"));
+        BufferedImage p38 = ImageIO.read(Panel.class.getResource("/powerplants/plant38.png"));
+        BufferedImage p39 = ImageIO.read(Panel.class.getResource("/powerplants/plant39.png"));
+        BufferedImage p40 = ImageIO.read(Panel.class.getResource("/powerplants/plant40.png"));
+       // BufferedImage p4 = ImageIO.read(Panel.class.getResource("/powerplants/plant11.png"));
+        //BufferedImage p50 = ImageIO.read(Panel.class.getResource("/powerplants/plant11.png"));
         }
         catch(Exception e)
         {
-            System.out.println(e);
+            System.out.println("The power plant import code does not work "+e);
         }
       /*  powerPlantDeck = new ArrayList<PowerPlant>
         (Arrays.asList(

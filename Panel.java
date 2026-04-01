@@ -7,25 +7,28 @@ import java.awt.image.BufferedImage;
 import java.util.*;
 public class Panel extends JPanel implements MouseListener{
 	
-
+BufferedImage p34;
 	
 public Panel() {
 	
 	addMouseListener(this);
-	
+	 try{
+		 p34 = ImageIO.read(Panel.class.getResource("/image/plant34.png"));
+	     
+	 }
+	 catch(Exception e){
+		 System.out.println(e);
+	 }
 	ArrayList<DisplayElement> exampleScreen = new ArrayList<DisplayElement>();//This is the tutorial screen
-	
 	exampleScreen.add // Add a displayElement to the screen we want to make
 	(
-			new DisplayElement(null,true,true,new Rectangle(100,100,100,100))// We set the bounds by making a new Rectangle. 
-																			 // We do not scale the values going into the object
+			new DisplayElement(p34,true,true,new Rectangle(100,100,100,100))// We set the bounds by making a new Rectangle. 																 // We do not scale the values going into the object
 			{
 				@Override //Only this object will paint and click like this 
 				public void draw(Graphics2D g) //Copy the exact signature of the method from the class
 				{
-					g.setColor(Color.red);
-					g.fillRect(x(x),y(y),x(width),y(height));//x() and y() scale the objects to the screen
-					
+					g.drawImage(p34,x,y,width,height, null);					g.setColor(Color.red);
+					//g.fillRect(x(x),y(y),x(width),y(height));//x() and y() scale the objects to the screen
 				}
 				
 				public void click(MouseEvent e)//runs when this object is clicked and clickable==true
@@ -64,6 +67,7 @@ public Panel() {
 	setScreen(ArrayList<DisplayElement> desired screen); 
 	 * */
 }
+
 
 
 

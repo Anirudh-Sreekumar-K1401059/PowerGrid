@@ -9,6 +9,13 @@ public class DisplayElement extends Rectangle {
 protected BufferedImage i;
 protected boolean clickable,displayable;
 protected ArrayList<DisplayElement> linkedElements = new ArrayList<DisplayElement>();
+public DispayElement()
+{
+	super(new Rectangle());
+	i = null;
+	clickable = false;
+	displayable = false;
+}
 
 
 public DisplayElement(BufferedImage image, boolean clickable, boolean displayable,Rectangle bound) {

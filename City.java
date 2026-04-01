@@ -1,5 +1,4 @@
-import java.util.*;
-
+import java.util.ArrayList;
 public class City {
     String name;
     String region;
@@ -14,9 +13,7 @@ public class City {
     public void changeCost(int newCost){
         cost = newCost;
     }
-   /*  public boolean isOpen(){
-       if(isAvailable){
-        isValidLoc = true;
-       } 
-    }*/
+    public boolean isOpen(){
+       return true;
+    }
 }

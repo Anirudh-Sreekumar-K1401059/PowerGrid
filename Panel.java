@@ -67,7 +67,11 @@ public Panel() {
 			
 			public void click(MouseEvent e) //code for the start button
 			{
-				
+				Manager.setGame();
+				Manager.setCities();
+				Manager.setPlayers();
+				Manager.setimage();
+				Manager.setResources();
 				setScreen(biddingScreen); 
 			}
 		}

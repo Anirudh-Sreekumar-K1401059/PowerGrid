@@ -2,9 +2,10 @@ import java.util.*;
 
 public class Player implements Comparable{
 //Variables 
-   private ArrayList<PowerPlant> myplants = new ArrayList<>();
+   private ArrayList<PowerPlant> myPlants = new ArrayList<>();
    private ArrayList<City> myCities = new ArrayList<>();
-   public HashMap<Resource, Integer> myRes = new HashMap<>();   private int elektros; 
+   public HashMap<Resource, Integer> myRes = new HashMap<>();
+   private int elektros; 
    private int numCitiesPowered; 
    private boolean didPass;
    private boolean isFinished; 
@@ -15,11 +16,11 @@ public class Player implements Comparable{
    }
 
    public void addPlant (PowerPlant plant){
-      myplants.add(plant);
+      myPlants.add(plant);
    }
 
    public void removePlants (PowerPlant plant){
-      myplants.remove(plant);
+      myPlants.remove(plant);
    }
 
    public void updateElektros(int elektross){

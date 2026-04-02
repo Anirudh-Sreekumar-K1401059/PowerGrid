@@ -26,15 +26,15 @@ public class Manager{
     boolean isBuildingOver;
     Player currPlayer;
 
-    public void setGame() {}
+    public static void setGame() {}
 
-    public void setPlayers() {}
+    public static void setPlayers() {}
 
-    public void setCities() {}
+    public static void setCities() {}
 
-    public void setResources() {}
+    public static void setResources() {}
 
-    public void setimage() {
+    public static void setimage() {
         try{
         BufferedImage p31 = ImageIO.read(Panel.class.getResource("/image/plant31.png"));
         BufferedImage p32 = ImageIO.read(Panel.class.getResource("/image/plant32.png"));
@@ -61,31 +61,31 @@ public class Manager{
         ));*/
     }
 
-    public void gameState() {}
+    public static void gameState() {}
 
-    public void purchaseRes() {}
+    public static void purchaseRes() {}
 
-    public void bid() {}
+    public static void bid() {}
 
-    public void pass() {}
+    public static void pass() {}
 
-    public void determineOrder() {}
+    public static void determineOrder() {}
 
-    public void earnMoney() {}
+    public static void earnMoney() {}
 
-    public void refillRes() {}
+    public static void refillRes() {}
 
-    public void updateMarket() {}
+    public static void updateMarket() {}
 
-    public int calculateCost(Type t) { return 0;}
+    public static int calculateCost(Type t) { return 0;}
     
-    public void nextTurn() {}
+    public static void nextTurn() {}
 
-    public void phaseOver() {}
+    public static void phaseOver() {}
 
-    public void stepOver() {}
+    public static void stepOver() {}
 
-    public void gameOver() {}
+    public static void gameOver() {}
 
 
 

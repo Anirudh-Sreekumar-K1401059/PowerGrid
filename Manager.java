@@ -34,20 +34,21 @@ public class Manager{
 
     public void setResources() {}
 
-    public void setPowerPlants() {
+    public void setimage() {
         try{
-        BufferedImage p31 = ImageIO.read(Panel.class.getResource("/powerplants/plant31.png"));
-        BufferedImage p32 = ImageIO.read(Panel.class.getResource("/powerplants/plant32.png"));
-        BufferedImage p33 = ImageIO.read(Panel.class.getResource("/powerplants/plant33.png"));
-        BufferedImage p34 = ImageIO.read(Panel.class.getResource("/powerplants/plant34.png"));
-        BufferedImage p35 = ImageIO.read(Panel.class.getResource("/powerplants/plant35.png"));
-        BufferedImage p36 = ImageIO.read(Panel.class.getResource("/powerplants/plant36.png"));
-        BufferedImage p37 = ImageIO.read(Panel.class.getResource("/powerplants/plant37.png"));
-        BufferedImage p38 = ImageIO.read(Panel.class.getResource("/powerplants/plant38.png"));
-        BufferedImage p39 = ImageIO.read(Panel.class.getResource("/powerplants/plant39.png"));
-        BufferedImage p40 = ImageIO.read(Panel.class.getResource("/powerplants/plant40.png"));
-       // BufferedImage p4 = ImageIO.read(Panel.class.getResource("/powerplants/plant11.png"));
-        //BufferedImage p50 = ImageIO.read(Panel.class.getResource("/powerplants/plant11.png"));
+        BufferedImage p31 = ImageIO.read(Panel.class.getResource("/image/plant31.png"));
+        BufferedImage p32 = ImageIO.read(Panel.class.getResource("/image/plant32.png"));
+        BufferedImage p33 = ImageIO.read(Panel.class.getResource("/image/plant33.png"));
+        BufferedImage p34 = ImageIO.read(Panel.class.getResource("/image/plant34.png"));
+        BufferedImage p35 = ImageIO.read(Panel.class.getResource("/image/plant35.png"));
+        BufferedImage p36 = ImageIO.read(Panel.class.getResource("/image/plant36.png"));
+        BufferedImage p37 = ImageIO.read(Panel.class.getResource("/image/plant37.png"));
+        BufferedImage p38 = ImageIO.read(Panel.class.getResource("/image/plant38.png"));
+        BufferedImage p39 = ImageIO.read(Panel.class.getResource("/image/plant39.png"));
+        BufferedImage p40 = ImageIO.read(Panel.class.getResource("/image/plant40.png"));
+                      p34 = ImageIO.read(Panel.class.getResource("/image/plant34.png"));
+       // BufferedImage p4 = ImageIO.read(Panel.class.getResource("/image/plant11.png"));
+        //BufferedImage p50 = ImageIO.read(Panel.class.getResource("/image/plant11.png"));
         }
         catch(Exception e)
         {

@@ -7,41 +7,20 @@ import java.awt.image.BufferedImage;
 import java.util.*;
 public class Panel extends JPanel implements MouseListener{
 	
-BufferedImage p34;
+
 	
 public Panel() {
 	
 	addMouseListener(this);
 	 try{
-		 p34 = ImageIO.read(Panel.class.getResource("/image/plant34.png"));
+		//we are going to make miscelanious images here
 	     
 	 }
 	 catch(Exception e){
 		 System.out.println(e);
 	 }
-	ArrayList<DisplayElement> exampleScreen = new ArrayList<DisplayElement>();//This is the tutorial screen
-	exampleScreen.add // Add a displayElement to the screen we want to make
-	(
-			new DisplayElement(p34,true,true,new Rectangle(100,100,100,100))// We set the bounds by making a new Rectangle. 																 // We do not scale the values going into the object
-			{
-				@Override //Only this object will paint and click like this 
-				public void draw(Graphics2D g) //Copy the exact signature of the method from the class
-				{
-					g.drawImage(p34,x,y,width,height, null);					g.setColor(Color.red);
-					//g.fillRect(x(x),y(y),x(width),y(height));//x() and y() scale the objects to the screen
-				}
-				
-				public void click(MouseEvent e)//runs when this object is clicked and clickable==true
-				{
-					
-					System.out.println("clicked");
-					setLocation(x+100,y); //One can use variables that are from Rectangle, DisplayElement, and the Rectangle class directly
-				}
-			}
-	);//this is the closed bracket of the .add()
 	
 	
-	setScreen(exampleScreen);// After making the screen, we need to set the currentScreen to the one we made
 							 
 	/* This is a copyable template to use. Once everyone has learned how to use the DisplayElement Class, just delete the above demo
 	 * 
@@ -66,6 +45,33 @@ public Panel() {
 	
 	setScreen(ArrayList<DisplayElement> desired screen); 
 	 * */
+
+	ArrayList<DisplayElement> startScreen = new ArrayList<DisplayElement>(); //The screen with the start button
+	ArrayList<DisplayElement> biddingScreen = new ArrayList<DisplayElement>(); //Get to this screen by clicking the start button
+	startScreen.add
+	(
+		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		/// START BUTTON
+		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		new DisplayElement(null,true,true,new Rectangle(400,400,200,100))
+		{
+			@Override  
+			public void draw(Graphics2D g) 
+			{
+				g.setColor(Color.BLUE);
+				g.fillRect(x(400),y(400),x(200),y(100));
+				g.setColor(Color.WHITE);
+				g.setFont(new Font("Arial",Font.BOLD,x(50)));
+				g.drawString("Start", x(425), y(475));
+			}
+			
+			public void click(MouseEvent e) //code for the start button
+			{
+				
+				setScreen(biddingScreen); 
+			}
+		}
+	);
 }
 
 

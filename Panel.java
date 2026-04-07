@@ -11,10 +11,11 @@ public class Panel extends JPanel implements MouseListener{
 	
 public Panel() {
 	
+	BufferedImage background = null;
 	addMouseListener(this);
 	 try{
 		//we are going to make miscelanious images here
-	     
+	   background = ImageIO.read(Panel.class.getResource("/GUI Images/StartScreenImage.png")); 
 	 }
 	 catch(Exception e){
 		 System.out.println(e);
@@ -46,19 +47,19 @@ public Panel() {
 	setScreen(ArrayList<DisplayElement> desired screen); 
 	 * */
 
-	ArrayList<DisplayElement> startScreen = new ArrayList<DisplayElement>(); //The screen with the start button
-	ArrayList<DisplayElement> biddingScreen = new ArrayList<DisplayElement>(); //Get to this screen by clicking the start button
+	TreeSet<DisplayElement> startScreen = new TreeSet<DisplayElement>(); //The screen with the start button
+	TreeSet<DisplayElement> biddingScreen = new TreeSet<DisplayElement>(); //Get to this screen by clicking the start button
 	startScreen.add
 	(
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		/// START BUTTON
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		new DisplayElement(null,true,true,new Rectangle(400,400,200,100))
+		new DisplayElement(null,true,true,new Rectangle(400,900,200,100),1) 
 		{
 			@Override  
 			public void draw(Graphics2D g) 
 			{
-				g.setColor(Color.BLUE);
+				g.setColor(Color.BLACK);
 				g.fillRect(x(400),y(400),x(200),y(100));
 				g.setColor(Color.WHITE);
 				g.setFont(new Font("Arial",Font.BOLD,x(50)));
@@ -67,15 +68,35 @@ public Panel() {
 			
 			public void click(MouseEvent e) //code for the start button
 			{
-				Manager.setGame();
+				Manager.setGame(); 
 				Manager.setCities();
 				Manager.setPlayers();
-				Manager.setimage();
 				Manager.setResources();
 				setScreen(biddingScreen); 
 			}
 		}
 	);
+	
+	
+	startScreen.add
+	(
+		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		/// Background for the start screen
+		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		new DisplayElement(background,true,true,new Rectangle(0,0,1000,1000),0)
+		{
+
+			public void click(MouseEvent e) //code for the start button
+			{
+				Manager.setGame();
+				Manager.setCities();
+				Manager.setPlayers();
+				Manager.setResources();
+				setScreen(biddingScreen); 
+			}
+		}
+	);
+	setScreen(startScreen);
 }
 
 
@@ -117,7 +138,7 @@ public Panel() {
 //Don't touch the code below
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	ArrayList<DisplayElement> currentScreen = new ArrayList<DisplayElement>();	
+	TreeSet<DisplayElement> currentScreen = new TreeSet<DisplayElement>();	
 	
 public void paintComponent(Graphics g) {
 super.paintComponent(g);
@@ -133,10 +154,11 @@ public int y(int in) { return (int)((getHeight() * in) / 1000.0); }
 public void mouseClicked(MouseEvent e) {
 int x = (int)(e.getX() * 1000.0 / getWidth());
 int y = (int)(e.getY() * 1000.0 / getHeight());
-DisplayElement ptr = new DisplayElement(null,false,false,null);
-for(int i=0;i<currentScreen.size();i++)
+DisplayElement ptr = new DisplayElement(null,false,false,null,0);
+Iterator<DisplayElement> it = currentScreen.iterator();
+while(it.hasNext())
 {
-ptr = currentScreen.get(i);
+ptr = it.next();
 if(ptr.contains(x,y))
 ptr.click(e);
 }
@@ -144,9 +166,9 @@ ptr.click(e);
 repaint();
 }
 
-public ArrayList<DisplayElement> setScreen(ArrayList<DisplayElement> in)
+public TreeSet<DisplayElement> setScreen(TreeSet<DisplayElement> in)
 {
-ArrayList<DisplayElement> out = currentScreen;
+TreeSet<DisplayElement> out = currentScreen;
 currentScreen = in;
 return out;
 }

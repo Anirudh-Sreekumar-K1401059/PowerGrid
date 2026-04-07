@@ -1,24 +1,25 @@
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.image.*;
-import java.util.ArrayList;
-import java.util.Arrays;
 
-public class DisplayElement extends Rectangle {
+
+public class DisplayElement extends Rectangle implements Comparable<DisplayElement>
+ {
 	
 protected BufferedImage i;
 protected boolean clickable,displayable;
-protected ArrayList<DisplayElement> linkedElements = new ArrayList<DisplayElement>();
+protected Integer layer;
 public DisplayElement()
 {
 	super(new Rectangle());
 	i = null;
 	clickable = false;
 	displayable = false;
+	layer = 0;
 }
 
 
-public DisplayElement(BufferedImage image, boolean clickable, boolean displayable,Rectangle bound) {
+public DisplayElement(BufferedImage image, boolean clickable, boolean displayable,Rectangle bound, Integer layer) {
 	super(bound != null ? bound : new Rectangle());
 setImage(image);
 setClickable(clickable);
@@ -68,6 +69,22 @@ public void setDisplayable(boolean d) {
 public String toString()
 {
 	return " clickable: "+clickable+" displayable: "+displayable+" "+super.toString();
+}
+
+public Integer getLayer()
+{
+	if(layer!=null)
+		return layer;
+	else
+	return -1;
+}
+public void setLayer(Integer layer)
+{
+	this.layer = layer;
+}
+@Override
+public int compareTo(DisplayElement o) {
+	return this.getLayer().compareTo(o.getLayer());
 }
 
 /*public boolean equals(DisplayElement o)

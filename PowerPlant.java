@@ -4,8 +4,8 @@ import java.util.*;
 
 public class PowerPlant extends DisplayElement {
 
-public PowerPlant(int num, int numPossibleCities, HashMap<Resource, Integer> resNeeded, int capacity,BufferedImage image, boolean clickable, boolean displayable, Rectangle bound) {
-        super(image, clickable, displayable, bound);
+public PowerPlant(int num, int numPossibleCities, HashMap<Resource, Integer> resNeeded, int capacity,BufferedImage image, boolean clickable, boolean displayable, Rectangle bound, Integer layer) {
+        super(image, clickable, displayable, bound, layer); 
         this.num = num;
         this.numPossibleCities = numPossibleCities;
         this.resNeeded = resNeeded;

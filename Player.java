@@ -4,11 +4,21 @@ public class Player implements Comparable{
 //Variables 
    private ArrayList<PowerPlant> myPlants = new ArrayList<>();
    private ArrayList<City> myCities = new ArrayList<>();
-   public HashMap<Resource, Integer> myRes = new HashMap<>();
+   public HashMap<Resource, Integer> myRes = new HashMap<>();  
    private int elektros; 
    private int numCitiesPowered; 
    private boolean didPass;
    private boolean isFinished; 
+   private String color;
+   
+   public Player(String c) {
+	   color = c;
+	   elektros = 50;
+	   numCitiesPowered = 0;
+	   didPass = false;
+	   isFinished = false; 
+	   
+   }
    
 //Methods
    public void addCity(City city){
@@ -16,10 +26,16 @@ public class Player implements Comparable{
    }
 
    public void addPlant (PowerPlant plant){
-      myPlants.add(plant);
+      if (myPlants.size() > 0) {
+         // Popup to choose which plant to replace
+         int indexToReplace = 0; // Show popup for user to select plant to replace
+         myPlants.set(indexToReplace, plant);
+      } else {
+         myPlants.add(plant);
+      }
    }
 
-   public void removePlants (PowerPlant plant){
+   public void removePlant (PowerPlant plant){
       myPlants.remove(plant);
    }
 

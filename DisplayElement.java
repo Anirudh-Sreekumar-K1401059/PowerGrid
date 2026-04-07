@@ -24,6 +24,7 @@ public DisplayElement(BufferedImage image, boolean clickable, boolean displayabl
 setImage(image);
 setClickable(clickable);
 setDisplayable(displayable);
+setLayer(layer);
 }
 	
 public void click(MouseEvent e)

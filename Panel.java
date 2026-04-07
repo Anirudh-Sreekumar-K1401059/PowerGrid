@@ -60,10 +60,10 @@ public Panel() {
 			public void draw(Graphics2D g) 
 			{
 				g.setColor(Color.BLACK);
-				g.fillRect(x(400),y(400),x(200),y(100));
+				g.fillRect(x(this.x),y(this.y),x(this.width),y(this.height));
 				g.setColor(Color.WHITE);
 				g.setFont(new Font("Arial",Font.BOLD,x(50)));
-				g.drawString("Start", x(425), y(475));
+				g.drawString("Start", x(this.x+25), y(this.y+75));
 			}
 			
 			public void click(MouseEvent e) //code for the start button

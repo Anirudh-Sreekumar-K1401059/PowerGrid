@@ -8,7 +8,7 @@ import java.util.*;
 public class Panel extends JPanel implements MouseListener{
 	
 
-	
+boolean notFirstClick = false;	
 public Panel() {
 	
 	BufferedImage background = null;
@@ -27,7 +27,7 @@ public Panel() {
 	 * 
 	 * exampleScreen.add 
 	(
-			new DisplayElement(BufferedImage image,boolean clickable ,boolean displayable ,Rectangle bounds)
+			new DisplayElement(BufferedImage image,boolean clickable ,boolean displayable ,Rectangle bounds, Integer layer)
 																			 
 			{
 				@Override  
@@ -48,7 +48,9 @@ public Panel() {
 	 * */
 
 	TreeSet<DisplayElement> startScreen = new TreeSet<DisplayElement>(); //The screen with the start button
+	TreeSet<DisplayElement> regionSelectScreen = new TreeSet<DisplayElement>();
 	TreeSet<DisplayElement> biddingScreen = new TreeSet<DisplayElement>(); //Get to this screen by clicking the start button
+
 	startScreen.add
 	(
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -86,17 +88,88 @@ public Panel() {
 		new DisplayElement(background,true,true,new Rectangle(0,0,1000,1000),0)
 		{
 
+			@Override
+			public void draw(Graphics2D g) 
+			{
+				g.drawImage(this.i,x(this.x),y(this.y),x(this.width),y(this.height),null);	
+			}
+
 			public void click(MouseEvent e) //code for the start button
 			{
 				Manager.setGame();
 				Manager.setCities();
 				Manager.setPlayers();
 				Manager.setResources();
-				setScreen(biddingScreen); 
+				setScreen(regionSelectScreen); 
 			}
 		}
 	);
 	setScreen(startScreen);
+
+	
+	LinkedList<DisplayElement> listOfRegions = new LinkedList<DisplayElement>();
+	
+	
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// teal region			continue this pattern for the rest of the regions
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
+	DisplayElement tealRegion = new DisplayElement(null,true ,true ,new Rectangle(0,0,100,100), 0)
+																			 
+			{
+				@Override  
+				public void draw(Graphics2D g) 
+				{
+					if(clickable) 
+						g.setColor(Color.green);
+					else
+						g.setColor(Color.red);
+
+					g.drawRect(x(this.x),y(this.y),x(this.width),y(this.y));
+				}
+				
+				public void click(MouseEvent e)
+				{
+					clickable = false;
+					if(notFirstClick && listOfRegions.contains(this))
+					{
+				/* 		listOfRegions.add(brownRegion);  
+					listOfRegions.add(redRegion);
+					listOfRegions.add(yellowRegion);*/
+					}	
+						
+					notFirstClick = true;	
+					
+					
+				}
+			};
+	
+
+/* 
+	regionSelectScreen.add
+	(
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// Map background
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
+	new DisplayElement( map ,false ,true ,new Rectangle(0,0,1000,1000), 0)
+																			 
+			{
+				@Override  
+				public void draw(Graphics2D g) 
+				{
+					g.drawimage(this.i,x(this.x),y(this.y),x(this.width).y(this.height));
+				}
+				
+				public void click(MouseEvent e)
+				{
+					
+				}
+			}
+	);
+ */
+
+	//Add all of the regions
+	
+	
 }
 
 

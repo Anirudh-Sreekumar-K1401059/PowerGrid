@@ -15,18 +15,18 @@ public class Resource
 	{
 		if (resources.size() == 0)
 		{
-			resources.put("COAL", Type.Coal);
-			resources.put("OIL", Type.Oil);
-			resources.put("TRASH", Type.Trash);
-			resources.put("URANIUM", Type.Uranium);
+			resources.put("COAL", Type.COAL);
+			resources.put("OIL", Type.OIL);
+			resources.put("TRASH", Type.TRASH);
+			resources.put("URANIUM", Type.URANIUM);
 		}
 
 		if (reverseResources.size() == 0)
 		{
-			reverseResources.put(Type.Coal, "COAL");
-			reverseResources.put(Type.Oil, "OIL");
-			reverseResources.put(Type.Trash, "TRASH");
-			reverseResources.put(Type.Uranium, "URANIUM");
+			reverseResources.put(Type.COAL, "COAL");
+			reverseResources.put(Type.OIL, "OIL");
+			reverseResources.put(Type.TRASH, "TRASH");
+			reverseResources.put(Type.URANIUM, "URANIUM");
 		}
 		
 		type = resources.get(t);
@@ -43,25 +43,25 @@ public class Resource
 	}
 	public BufferedImage getPic()
 	{
-		if(type.equals(Type.Oil))
+		if(type.equals(Type.OIL))
 			try {
 				return ImageIO.read(getClass().getResource("/img/oil.png")); //gotta download an oil image
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		if(type.equals(Type.Trash))
+		if(type.equals(Type.TRASH))
 			try {
 				return ImageIO.read(getClass().getResource("/img/trash.png")); //gotta download a trash image
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		if(type.equals(Type.Coal))
+		if(type.equals(Type.COAL))
 			try {
 				return ImageIO.read(getClass().getResource("/img/coal.png")); //gotta download a coal image
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		if(type.equals(Type.Uranium))
+		if(type.equals(Type.URANIUM))
 			try {
 				return ImageIO.read(getClass().getResource("/img/uranium.png")); //gotta download an uranium image
 			} catch (IOException e) {

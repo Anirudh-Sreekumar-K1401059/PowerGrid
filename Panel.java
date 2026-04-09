@@ -9,6 +9,9 @@ public class Panel extends JPanel implements MouseListener{
 	
 
 boolean notFirstClick = false;	
+Iterator playerIterator;
+LinkedList<DisplayElement> listOfRegions = new LinkedList<DisplayElement>();
+LinkedList<String> activeRegions = new LinkedList<String>();
 public Panel() {
 	
 	BufferedImage background = null;
@@ -70,11 +73,9 @@ public Panel() {
 			
 			public void click(MouseEvent e) //code for the start button
 			{
-				Manager.setGame(); 
-				Manager.setCities();
-				Manager.setPlayers();
-				Manager.setResources();
+				//Add setup code here
 				setScreen(biddingScreen); 
+				playerIterator = Manager.playerOrder.iterator();
 			}
 		}
 	);
@@ -94,20 +95,16 @@ public Panel() {
 				g.drawImage(this.i,x(this.x),y(this.y),x(this.width),y(this.height),null);	
 			}
 
-			public void click(MouseEvent e) //code for the start button
+			public void click(MouseEvent e) 
 			{
-				Manager.setGame();
-				Manager.setCities();
-				Manager.setPlayers();
-				Manager.setResources();
-				setScreen(regionSelectScreen); 
+ 
 			}
 		}
 	);
 	setScreen(startScreen);
 
 	
-	LinkedList<DisplayElement> listOfRegions = new LinkedList<DisplayElement>();
+	
 	
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -130,27 +127,220 @@ public Panel() {
 				public void click(MouseEvent e)
 				{
 					clickable = false;
-					if(notFirstClick && listOfRegions.contains(this))
+					if((notFirstClick || listOfRegions.contains(this))&& playerIterator.hasNext())
 					{
+						playerIterator.next();
 				/* 		listOfRegions.add(brownRegion);  
 					listOfRegions.add(redRegion);
 					listOfRegions.add(yellowRegion);*/
+					activeRegions.add("teal");
 					}	
-						
+
+					if(!playerIterator.hasNext())
+					{
+						Manager.setCities(activeRegions);
+					}	
 					notFirstClick = true;	
 					
 					
 				}
 			};
 	
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// red region			continue this pattern for the rest of the regions
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
+	DisplayElement redRegion = new DisplayElement(null,true ,true ,new Rectangle(0,0,100,100), 0)
+																			 
+			{
+				@Override  
+				public void draw(Graphics2D g) 
+				{
+					if(clickable) 
+						g.setColor(Color.green);
+					else
+						g.setColor(Color.red);
 
+					g.drawRect(x(this.x),y(this.y),x(this.width),y(this.y));
+				}
+				
+				public void click(MouseEvent e)
+				{
+					clickable = false;
+					if((notFirstClick || listOfRegions.contains(this))&& playerIterator.hasNext())
+					{
+				/* 		listOfRegions.add(tealRegion);  
+					listOfRegions.add(yellowRegion);
+					listOfRegions.add(blueRegion);
+					activeRegions.add("red");
+					*/
+					}	
+						if(!playerIterator.hasNext())
+					{
+						Manager.setCities(activeRegions);
+					}	
+					notFirstClick = true;	
+					
+					
+				}
+			};
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// brown region			continue this pattern for the rest of the regions
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
+	DisplayElement brownRegion = new DisplayElement(null,true ,true ,new Rectangle(0,0,100,100), 0)
+																			 
+			{
+				@Override  
+				public void draw(Graphics2D g) 
+				{
+					if(clickable) 
+						g.setColor(Color.green);
+					else
+						g.setColor(Color.red);
+
+					g.drawRect(x(this.x),y(this.y),x(this.width),y(this.y));
+				}
+				
+				public void click(MouseEvent e)
+				{
+					clickable = false;
+					if((notFirstClick || listOfRegions.contains(this))&& playerIterator.hasNext())
+					{
+				/* 		listOfRegions.add(tealRegion);  
+					listOfRegions.add(yellowRegion);
+					activeRegions.add("brown");
+					*/
+					}	
+						if(!playerIterator.hasNext())
+					{
+						Manager.setCities(activeRegions);
+					}	
+					notFirstClick = true;	
+					
+					
+				}
+			};
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// yellow region			continue this pattern for the rest of the regions
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
+	DisplayElement yellowRegion = new DisplayElement(null,true ,true ,new Rectangle(0,0,100,100), 0)
+																			 
+			{
+				@Override  
+				public void draw(Graphics2D g) 
+				{
+					if(clickable) 
+						g.setColor(Color.green);
+					else
+						g.setColor(Color.red);
+
+					g.drawRect(x(this.x),y(this.y),x(this.width),y(this.y));
+				}
+				
+				public void click(MouseEvent e)
+				{
+					clickable = false;
+					if((notFirstClick || listOfRegions.contains(this))&& playerIterator.hasNext())
+					{
+				/* 		listOfRegions.add(tealRegion);  
+					listOfRegions.add(redRegion);
+					listOfRegions.add(blueRegion);
+					listOfRegions.add(brownRegion);
+					listOfRegions.add(purpleRegion);
+					activeRegions.add("yellow");
+					*/
+					}	
+						if(!playerIterator.hasNext())
+					{
+						Manager.setCities(activeRegions);
+					}	
+					notFirstClick = true;	
+					
+					
+				}
+			};
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// blue region			continue this pattern for the rest of the regions
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
+	DisplayElement blueRegion = new DisplayElement(null,true ,true ,new Rectangle(0,0,100,100), 0)
+																			 
+			{
+				@Override  
+				public void draw(Graphics2D g) 
+				{
+					if(clickable) 
+						g.setColor(Color.green);
+					else
+						g.setColor(Color.red);
+
+					g.drawRect(x(this.x),y(this.y),x(this.width),y(this.y));
+				}
+				
+				public void click(MouseEvent e)
+				{
+					clickable = false;
+					if((notFirstClick || listOfRegions.contains(this))&& playerIterator.hasNext())
+					{
+				/* 		listOfRegions.add(yellowRegion);  
+					listOfRegions.add(redRegion);
+					listOfRegions.add(purpleRegion);
+					activeRegions.add("blue");
+					*/
+					}	
+						if(!playerIterator.hasNext())
+					{
+						Manager.setCities(activeRegions);
+					}	
+					notFirstClick = true;	
+					
+					
+				}
+			};
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// purple region			continue this pattern for the rest of the regions
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
+	DisplayElement purpleRegion = new DisplayElement(null,true ,true ,new Rectangle(0,0,100,100), 0)
+																			 
+			{
+				@Override  
+				public void draw(Graphics2D g) 
+				{
+					if(clickable) 
+						g.setColor(Color.green);
+					else
+						g.setColor(Color.red);
+
+					g.drawRect(x(this.x),y(this.y),x(this.width),y(this.y));
+				}
+				
+				public void click(MouseEvent e)
+				{
+					clickable = false;
+					if((notFirstClick || listOfRegions.contains(this))&& playerIterator.hasNext())
+					{
+				/* 		listOfRegions.add(yellowRegion);  
+					listOfRegions.add(blueRegion);
+					activeRegions.add("purple");
+					*/
+					}	
+					if(!playerIterator.hasNext())
+					{
+						Manager.setCities(activeRegions);
+					}	
+					notFirstClick = true;	
+					
+					
+				}
+			};
 /* 
 	regionSelectScreen.add
 	(
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// Map background
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
-	new DisplayElement( map ,false ,true ,new Rectangle(0,0,1000,1000), 0)
+	new DisplayElement( map ,false ,true ,new Rectangle(0,0,1000,1000), -1)
 																			 
 			{
 				@Override  

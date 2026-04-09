@@ -4,28 +4,29 @@ import javax.imageio.ImageIO;
 
 public class Manager{
 
-    ArrayList<PowerPlant> powerPlantDeck;
-    TreeMap<Integer, Resource[]> resourceMarket;
-    HashMap<Resource, TreeMap<Integer,Resource[]>> market;
-    HashMap<Resource, Integer> resourceNotInMarket;
-    HashMap<Integer, Integer> income;
-    HashMap<Integer, HashMap<Resource, Integer>> resupply;
-    ArrayList<Player> playerOrder;
-    TreeSet<PowerPlant> powerPlantMarket;
+    static ArrayList<PowerPlant> powerPlantDeck;
+    static TreeMap<Integer, Resource[]> resourceMarket;
+    static HashMap<Resource, TreeMap<Integer,Resource[]>> market;
+    static HashMap<Resource, Integer> resourceNotInMarket;
+   static HashMap<Integer, Integer> income;
+    static HashMap<Integer, HashMap<Resource, Integer>> resupply;
+    static ArrayList<Player> playerOrder;
+    static TreeSet<PowerPlant> powerPlantMarket;
     ArrayList<City> cities;
     ArrayList<String> selectedRegions;
     Map graph;
     int step;
-    int phase;
-    int turn;
+    int phase = 1;
+    static int turn;
     boolean isStepThree;
     int cost;
     int numPasses;
     boolean isAuctionOver;
     boolean isMaterialBuyingOver;
     boolean isBuildingOver;
-    Player currPlayer;
+    static Player currPlayer;
 
+    
     public static void setGame(){
     	//
     }
@@ -37,12 +38,16 @@ public class Manager{
     	Player green = new Player ("green");
     	
     	//randomize player order
-
+        playerOrder.add(red);
+        playerOrder.add(blue);
+        playerOrder.add(yellow);
+        playerOrder.add(green);
+        Collections.shuffle(playerOrder);
     	
     }
 
-    public static void setCities() {
-    	
+    public static void setCities(LinkedList<String> selectedRegions) {
+        
     }
 
     public static void setResources() {
@@ -84,43 +89,92 @@ public class Manager{
         BufferedImage p44 = ImageIO.read(Panel.class.getResource("/plantCards/plant44.png"));
         BufferedImage p46 = ImageIO.read(Panel.class.getResource("/plantCards/plant46.png"));
         BufferedImage p50 = ImageIO.read(Panel.class.getResource("/plantCards/plant50.png"));
-
-
         }
-        catch(Exception e)
-        {
+        catch(Exception e) {
             System.out.println("Error");
         }
     }
     
     
 
-    public static void gameState() {}
+    public static void gameState() {
 
-    public static  void purchaseRes() {}
+    }
 
-    public static void bid() {}
+    public static  void purchaseRes() {
 
-    public static  void pass() {}
+    }
 
-    public static void determineOrder() {}
+    public static void bid() {
 
-    public static void earnMoney() {}
+    }
 
-    public static void refillRes() {}
+    public static  void pass() {
 
-    public static void updateMarket() {}
+    }
+
+    public static void determineOrder() {
+        
+    }
+
+    public static void earnMoney() {
+        if (playerOrder == null || playerOrder.isEmpty()) {
+            return;
+        }
+
+        for (Player player : playerOrder) {
+            int citiesPowered = player.canPower();
+            int earned = calculateIncome(citiesPowered);
+            player.updateElektros(earned);
+        }
+    }
+
+    private static int calculateIncome(int citiesPowered) {
+        return Math.max(0, citiesPowered * 10);
+    }
+
+    public static void refillRes() {
+        if (playerOrder == null || playerOrder.isEmpty()) {
+            return;
+        }
+
+        for (Player player : playerOrder) {
+            HashMap<Resource, Integer> resupplyForPlayer = resupply.get(player.getColor());
+            for (Map.Entry<Resource, Integer> entry : resupplyForPlayer.entrySet()) {
+                Resource resource = entry.getKey();
+                int quantity = entry.getValue();
+                player.myRes.put(resource, player.myRes.getOrDefault(resource, 0) + quantity);
+            }
+        }
+    }
+
+    public static void updateMarket() {
+        // Logic to update the power plant market and resource market based on the current game state
+    	// This may involve moving power plants from the deck to the market, removing purchased plants, and adjusting resource availability
+    }
 
     public static int calculateCost(Type t) { return 0;}
     
-    public static void nextTurn() {}
+    public static void nextTurn() {
+        if (playerOrder == null || playerOrder.isEmpty()) {
+            return;
+        }
+        turn = (turn + 1) % playerOrder.size();
+        currPlayer = playerOrder.get(turn);
+    }
 
-    public static void phaseOver() {}
+   public void phaseOver() {
+    for (Player p : playerOrder) {
+        if (p.myCities.size() > 7 && phase < 5) {
+            phase++;
+            break;
+        }
+    }
+}
 
     public static void stepOver() {}
 
     public static void gameOver() {}
-
 
 
 }

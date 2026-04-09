@@ -42,8 +42,21 @@ public class Player implements Comparable{
    public void updateElektros(int elektross){
       elektros = elektros + elektross;
    }
+
+   public int getElektros() {
+      return elektros;
+   }
+
    public int canPower(){
       return numCitiesPowered;
+   }
+
+   public int getNumCitiesPowered() {
+      return numCitiesPowered;
+   }
+
+   public void setNumCitiesPowered(int poweredCities) {
+      numCitiesPowered = Math.max(0, poweredCities);
    }
 
    @Override

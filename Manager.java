@@ -174,7 +174,20 @@ public class Manager{
 
     public static void stepOver() {}
 
-    public static void gameOver() {}
+    public static void gameOver() {
+        if (phase >= 5) {
+            Player winner = null;
+            int maxCities = -1;
+            for (Player player : playerOrder) {
+                int citiesPowered = player.canPower();
+                if (citiesPowered > maxCities) {
+                    maxCities = citiesPowered;
+                    winner = player;
+                }
+            }
+            System.out.println("Game Over! The winner is: " + winner.getColor());
+        }
+    }
 
 
 }

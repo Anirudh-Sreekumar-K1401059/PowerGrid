@@ -5,7 +5,6 @@ import javax.imageio.ImageIO;
 public class Manager{
 
     static ArrayList<PowerPlant> powerPlantDeck;
-    static TreeMap<Integer, Resource[]> resourceMarket;
     static HashMap<Resource, TreeMap<Integer,Resource[]>> market;
     static HashMap<Resource, Integer> resourceNotInMarket;
    static HashMap<Integer, Integer> income;
@@ -51,7 +50,11 @@ public class Manager{
     }
 
     public static void setResources() {
-    	
+    	market.put(Resource.COAL, new TreeMap<Integer, Resource[]>());
+    	market.put(Resource.OIL, new TreeMap<Integer, Resource[]>());
+        market.put(Resource.TRASH, new TreeMap<Integer, Resource[]>());
+        market.put(Resource.URANIUM, new TreeMap<Integer, Resource[]>());
+    
     }
 
     public static void setPowerPlants() {
@@ -106,15 +109,32 @@ public class Manager{
     }
 
     public static void bid() {
+        //check if entered number is higher than current bid 
+        //if the entered number is higher, set current bid to this
+        //if entered number is lower, count it as a pass and numPasses++
+        //call currPlayer.updateElektros(-currentBid) to subtract the bid amount from the player's elektros
+    
+
 
     }
 
     public static  void pass() {
 
+
     }
 
     public static void determineOrder() {
-        
+        	//sort player order based on the power plant they have with the lowest number
+        	//if there is a tie, sort based on the second lowest plant, and so on
+        	//if there is still a tie, sort randomly
+        	Collections.sort(playerOrder);
+        	Collections.shuffle(playerOrder);
+        	currPlayer = playerOrder.get(0);
+        	turn = 1;
+        	System.out.println("Player order: ");
+        	for (Player player : playerOrder) {
+        		System.out.println(player.getColor());
+        	}
     }
 
     public static void earnMoney() {
@@ -149,32 +169,74 @@ public class Manager{
     }
 
     public static void updateMarket() {
-        // Logic to update the power plant market and resource market based on the current game state
-    	// This may involve moving power plants from the deck to the market, removing purchased plants, and adjusting resource availability
+        	//remove the lowest 4 power plants from the market and add 4 new ones from the deck
+        	//sort the market based on the number of cities each plant can power
+        	//if there is a tie, sort based on the resource requirements, with plants that require fewer resources coming first
+        	//if there is still a tie, sort randomly
+        	for (int i = 0; i < 4; i++) {
+        		powerPlantMarket.pollFirst();
+        		if (!powerPlantDeck.isEmpty()) {
+        			powerPlantMarket.add(powerPlantDeck.remove(0));
+        		}
+        	}
     }
 
     public static int calculateCost(Type t) { return 0;}
     
     public static void nextTurn() {
-        if (playerOrder == null || playerOrder.isEmpty()) {
-            return;
+        if(turn==1) {
+            currPlayer = playerOrder.get(1); //if the current player is the first, this sets currPlyaer to the second one
+            turn=2;
+        } else if(turn==2) {
+            currPlayer = playerOrder.get(2); //if the current player is the second, this sets currPlyaer to the third one
+        } else if(turn==3) {
+            currPlayer = playerOrder.get(3); //if the current player is the third, this sets currPlyaer to the fourth one
+        } else if(turn==4) {
+            currPlayer = playerOrder.get(0); //if the current player is the fourth, this sets currPlyaer to the first one
+            turn=1;
         }
-        turn = (turn + 1) % playerOrder.size();
-        currPlayer = playerOrder.get(turn);
     }
 
    public void phaseOver() {
-    for (Player p : playerOrder) {
-        if (p.myCities.size() > 7 && phase < 5) {
-            phase++;
-            break;
+        if (phase == 1) {
+            // Check if all players have passed in the auction phase
+            if (isAuctionOver) {
+                phase = 2;
+                System.out.println("Auction phase over. Moving to Resource Buying phase.");
+            }
+        } else if (phase == 2) {
+            // Check if all players have finished buying resources
+            if (isMaterialBuyingOver) {
+                phase = 3;
+                System.out.println("Resource Buying phase over. Moving to Building phase.");
+            }
+        } else if (phase == 3) {
+            // Check if all players have finished building
+            if (isBuildingOver) {
+                phase = 4;
+                System.out.println("Building phase over. Moving to Bureaucracy phase.");
+            }
+        } else if (phase == 4) {
+            // Check if all players have finished the bureaucracy phase
+            gameOver();
         }
-    }
 }
 
-    public static void stepOver() {}
 
-    public static void gameOver() {
+    public static void stepOver() {
+        if (step == 1) {
+            step = 2;
+            System.out.println("Step 1 over. Moving to Step 2.");
+        } else if (step == 2) {
+            step = 3;
+            System.out.println("Step 2 over. Moving to Step 3.");
+        } else if (step == 3) {
+            step = 1;
+            System.out.println("Step 3 over. Moving back to Step 1.");
+        }
+    }
+
+    public void gameOver() {
         if (phase >= 5) {
             Player winner = null;
             int maxCities = -1;

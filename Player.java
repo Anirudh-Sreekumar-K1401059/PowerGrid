@@ -1,13 +1,13 @@
 import java.util.*;
 
-public class Player implements Comparable{
+public class Player implements Comparable<Player>{
 //Variables 
    private ArrayList<PowerPlant> myPlants = new ArrayList<>();
    private ArrayList<City> myCities = new ArrayList<>();
    public HashMap<Resource, Integer> myRes = new HashMap<>();  
    private int elektros; 
    private int numCitiesPowered; 
-   private boolean didPass;
+   public boolean didPassOrBid;
    private boolean isFinished; 
    private String color;
    
@@ -26,7 +26,7 @@ public class Player implements Comparable{
    }
 
    public void addPlant (PowerPlant plant){
-      if (myPlants.size() > 0) {
+      if (myPlants.size() > 2) {
          // Popup to choose which plant to replace
          int indexToReplace = 0; // Show popup for user to select plant to replace
          myPlants.set(indexToReplace, plant);
@@ -59,10 +59,34 @@ public class Player implements Comparable{
       numCitiesPowered = Math.max(0, poweredCities);
    }
 
+   public PowerPlant maxPlant() {
+      PowerPlant max = myPlants.get(0);
+      for (PowerPlant plant : myPlants) {
+         if (plant.getNum() > max.getNum()) {
+            max = plant;
+         }
+      }
+      return max;
+   } 
+
+
    @Override
-   public int compareTo(Object o) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'compareTo'");
+   public int compareTo(Player o) {
+      if(this.myCities.size() > o.myCities.size()) {
+         return 1;
+      } else if(this.myCities.size() < o.myCities.size()) {
+         return -1;
+      } 
+      if(this.maxPlant().getNum() > o.maxPlant().getNum()) {
+         return 1;
+      } else if(this.maxPlant().getNum() < o.maxPlant().getNum()) {
+         return -1;
+      }
+      return 0;
+   }
+
+   public String getColor() {
+      return color;
    }
 
 }

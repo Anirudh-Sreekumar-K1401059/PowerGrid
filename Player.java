@@ -15,7 +15,7 @@ public class Player implements Comparable<Player>{
 	   color = c;
 	   elektros = 50;
 	   numCitiesPowered = 0;
-	   didPass = false;
+	   didPassOrBid = false;
 	   isFinished = false; 
 	   
    }

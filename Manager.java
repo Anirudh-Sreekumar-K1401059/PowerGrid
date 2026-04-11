@@ -5,15 +5,14 @@ import javax.imageio.ImageIO;
 public class Manager{
 
     static ArrayList<PowerPlant> powerPlantDeck;
-    static HashMap<Resource, TreeMap<Integer,Resource[]>> market;
-    static HashMap<Resource, Integer> resourceNotInMarket;
+    static HashMap<Type, TreeMap<Integer,ArrayList<Resource>>> market;
+    static HashMap<Type, Integer> resourceNotInMarket;
    static HashMap<Integer, Integer> income;
-    static HashMap<Integer, HashMap<Resource, Integer>> resupply;
+    static HashMap<Integer, HashMap<Type, Integer>> resupply;
     static ArrayList<Player> playerOrder;
     static TreeSet<PowerPlant> powerPlantMarket;
     ArrayList<City> cities;
     ArrayList<String> selectedRegions;
-    Map graph;
     int step;
     int phase = 1;
     static int turn;
@@ -50,13 +49,68 @@ public class Manager{
     }
 
     public static void setResources() {
-    	market.put(Resource.COAL, new TreeMap<Integer, Resource[]>());
-    	market.put(Resource.OIL, new TreeMap<Integer, Resource[]>());
-        market.put(Resource.TRASH, new TreeMap<Integer, Resource[]>());
-        market.put(Resource.URANIUM, new TreeMap<Integer, Resource[]>());
-    
+        //creating all of the markets to access later
+    	market.put(Type.COAL, new TreeMap<Integer, ArrayList<Resource>>());
+    	market.put(Type.OIL, new TreeMap<Integer, ArrayList<Resource>>());
+        market.put(Type.TRASH, new TreeMap<Integer, ArrayList<Resource>>());
+        market.put(Type.URANIUM, new TreeMap<Integer, ArrayList<Resource>>());
+        //Adding the first 8 tiles
+        for(int i=0;i<8;i++)
+        {
+            market.get(Type.COAL).put(i,new ArrayList<Resource>());
+            market.get(Type.OIL).put(i,new ArrayList<Resource>());
+            market.get(Type.TRASH).put(i,new ArrayList<Resource>());
+            market.get(Type.URANIUM).put(i,new ArrayList<Resource>());
+        }
+        //Uranium slots 10 12 14 16
+        for(int i=0;i<4;i++)
+            market.get(Type.URANIUM).put(10+(i*2),new ArrayList<Resource>());
     }
 
+    /*adds the resources to the market at the lowest avaliable cost
+    Type t: the type of resource
+    int amount: the number of resources to add to the market
+    */
+    public static void addMarketResource(Type t, int amount)
+    {
+        Integer reserves = resourceNotInMarket.get(t);//the number of resources of type t that can be added to the market
+        TreeMap<Integer,ArrayList<Resource>> subMarket = market.get(t); // The market for only type t
+        Iterator<Integer> marketIter = subMarket.descendingKeySet().iterator();// used to iterate backwards through the market
+        int price = marketIter.next();// the price section currently being looked at
+        while(price>0)//iterate through all of the price sections
+        {
+            int capacity = marketCapacity(t,price);// how many resources can be of a certain price
+            ArrayList<Resource> subTile = subMarket.get(price);// all the resources of that price
+            for(int j=0;j<capacity;j++)// iterate through subTile
+            {
+                if(subTile.size()!=capacity)// redundancy to make sure ArrayList does not overflow
+                //if this still does not work, I will switch back to Resource[]
+                {
+                subTile.add(new Resource(t));
+                reserves--;//this will update the reserves in resourceNotInMarket
+                }
+            }
+        }
+    }
+
+    public static int marketCapacity(Type t, int price)
+	{
+		if(price<0||price>16)
+			return -1;
+		if(t!=Type.URANIUM&&price<9)
+			return 3;
+		else if(t==Type.URANIUM)
+		{
+			if(price>8&&price%2==1)
+				return -1;
+			return 1;
+		}
+        System.out.println("marketCapacity returns -2. Manager 89");
+		return -2;
+	}
+
+    
+    
     public static void setPowerPlants() {
         try{
         BufferedImage p11 = ImageIO.read(Panel.class.getResource("/plantCards/plant11.png"));
@@ -153,12 +207,12 @@ public class Manager{
         return Math.max(0, citiesPowered * 10);
     }
 
-    public static void refillRes() {
+    public static void refillRes() { //what does this method do. add comments to the code
         if (playerOrder == null || playerOrder.isEmpty()) {
             return;
         }
 
-        for (Player player : playerOrder) {
+        for (Player player : playerOrder) {//resupply is not done by a player to player basis. you just add the required resources into the market
             HashMap<Resource, Integer> resupplyForPlayer = resupply.get(player.getColor());
             for (Map.Entry<Resource, Integer> entry : resupplyForPlayer.entrySet()) {
                 Resource resource = entry.getKey();

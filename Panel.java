@@ -418,7 +418,7 @@ public void mouseClicked(MouseEvent e) {
 int x = (int)(e.getX() * 1000.0 / getWidth());
 int y = (int)(e.getY() * 1000.0 / getHeight());
 DisplayElement ptr = new DisplayElement(null,false,false,null,0);
-Iterator<DisplayElement> it = currentScreen.iterator();
+ListIterator<DisplayElement> it = currentScreen.ListIterator();
 while(it.hasNext())
 {
 ptr = it.next();

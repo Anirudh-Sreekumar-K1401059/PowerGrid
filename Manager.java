@@ -45,7 +45,13 @@ public class Manager{
     }
 
     public static void setCities(LinkedList<String> selectedRegions) {
-        
+        //use scanner for everything
+        //if the region color is in the linkedlist:
+            //read the city name and make a new object if it doesn't already exist in the class arraylist called cities
+            //then read the following integer and keep it in a temporary variable 
+            //read the connecting city region color. if its in selectedRegions:
+                //check if the city is in the class variable 
+    
     }
 
     public static void setResources() {
@@ -155,11 +161,14 @@ public class Manager{
     
 
     public static void gameState() {
+        
 
     }
 
     public static  void purchaseRes() {
-
+        //check if the player has enough elektros to buy the resource
+        //if they do, subtract the cost from their elektros and add the resource to their inventory
+        //if they don't, show an error message
     }
 
     public static void bid() {
@@ -173,7 +182,6 @@ public class Manager{
     }
 
     public static  void pass() {
-
 
     }
 
@@ -277,7 +285,7 @@ public class Manager{
 }
 
 
-    public static void stepOver() {
+    public  void stepOver() {
         if (step == 1) {
             step = 2;
             System.out.println("Step 1 over. Moving to Step 2.");
@@ -301,7 +309,7 @@ public class Manager{
                     winner = player;
                 }
             }
-            System.out.println("Game Over! The winner is: " + winner.getColor());
+            System.out.println("Game Over! The winner is: " + winner.getColor()); //repplace with with opening the end game panel 
         }
     }
 

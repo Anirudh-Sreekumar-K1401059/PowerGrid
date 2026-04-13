@@ -1,0 +1,121 @@
+﻿Teal Flensburg | 4, Teal Kiel
+
+
+Teal Kiel | 4, Teal Flensburg | 8, Teal Hamburg | 4, Brown Lubeck
+
+
+Brown Lubeck | 4, Teal Kiel | 6, Teal Hamburg | 6, Brown Schwerin
+
+
+Teal Hamburg | 8, Teal Kiel | 6, Brown Lubeck | 8, Brown Schwerin | 11, Teal Cuxhaven | 11, Teal Bremen | 17, Teal Hannover
+
+
+Teal Cuxhaven | 11, Teal Hamburg | 8, Teal Bremen
+
+
+Teal Wilhelmshaven | 11, Teal Bremen | 14, Red Osnabruck
+
+
+Teal Bremen | 8, Teal Cuxhaven | 11, Teal Hamburg | 10, Teal Hannover | 11, Red Osnabruck | 11, Teal Wilhelmshaven
+
+
+Red Osnabruck | 11, Teal Wilhelmshaven | 16, Teal Bremen | 20, Teal Hannover | 20, Red Kassel | 7, Red Munster
+
+
+Red Munster | 7, Red Osnabruck | 2, Red Dortmund | 6, Red Essen
+
+
+Red Essen | 6, Red Munster | 4, Red Dortmund | 2, Red Dusseldorf
+
+
+Red Dusseldorf | 2, Red Essen | 4, Blue Koln | 9, Blue Aachen
+
+
+Red Dortmund | 2, Red Munster | 4, Red Essen | 10, Blue Koln | 18, Red Kassel | 20, Blue Frankfurt-M
+
+
+Blue Koln | 4, Red Dusseldorf | 7, Blue Aachen | 10, Red Dortmund | 20, Blue Trier | 21, Blue Wiesbaden
+
+
+Blue Aachen | 9, Red Dusseldorf | 7, Blue Koln | 19, Blue Trier
+
+
+Blue Trier | 19, Blue Aachen | 20, Blue Koln | 10, Blue Wiesbaden | 11, Blue Saarbrucken
+
+
+Blue Saarbrucken | 11, Blue Trier | 10, Blue Wiesbaden | 11, Blue Mannheim | 17, Purple Stuttgart
+
+
+Blue Wiesbaden | 21, Blue Koln | 18, Blue Trier | 10, Blue Saarbrucken | 11, Blue Mannheim
+
+
+Blue Mannheim | 11, Blue Wiesbaden | 11, Blue Saarbrucken | 6, Purple Stuttgart | 10, Yellow Wurzburg
+
+
+Red Kassel | 20, Red Osnabruck | 15, Teal Hannover | 18, Red Dortmund | 13, Blue Frankfurt-M | 8, Yellow Fulda | 15, Yellow Erfurt
+
+
+Teal Hannover | 10, Teal Bremen | 16, Red Osnabruck | 17, Teal Hamburg | 15, Red Kassel | 19, Brown Schwerin | 15, Brown Magdeburg | 19, Yellow Erfurt
+
+
+Yellow Erfurt | 19, Teal Hannover | 15, Red Kassel | 13, Yellow Fulda | 21, Yellow Nurnberg | 6, Yellow Halle | 19, Yellow Dresden
+
+
+Yellow Fulda | 8, Red Kassel | 13, Yellow Erfurt | 8, Blue Frankfurt-M | 11, Yellow Wurzburg
+
+
+Blue Frankfurt-M | 13, Red Kassel | 8, Yellow Fulda | 20, Red Dortmund | 13, Yellow Wurzburg
+
+
+Yellow Wurzburg | 11, Yellow Fulda | 13, Blue Frankfurt-M | 10, Blue Mannheim | 12, Purple Stuttgart | 19, Purple Augsburg | 8, Yellow Nurnberg
+
+
+Yellow Nurnberg | 21, Yellow Erfurt | 8, Yellow Wurzburg | 18, Purple Augsburg | 12, Purple Regensburg
+
+
+Yellow Halle | 6, Yellow Erfurt | 11, Brown Magdeburg | 17, Brown Berlin
+
+
+Yellow Leipzig | 13, Yellow Dresden | 21, Brown Frankfurt-O
+
+
+Brown Rostock | 6, Brown Schwerin | 19, Brown Torgelow
+
+
+Brown Schwerin | 6, Brown Rostock | 6, Brown Lubeck | 8, Teal Hamburg | 19, Teal Hannover | 16, Brown Magdeburg | 18, Brown Berlin | 19, Brown Torgelow
+
+
+Brown Magdeburg | 15, Teal Hannover | 16, Brown Schwerin | 11, Yellow Halle | 10, Brown Berlin
+
+
+Brown Berlin | 18, Brown Schwerin | 10, Brown Magdeburg | 17, Yellow Halle | 6, Brown Frankfurt-O | 15, Brown Torgelow
+
+
+Brown Frankfurt-O | 6, Brown Berlin | 21, Yellow Leipzig | 16, Yellow Dresden
+
+
+Brown Torgelow | 19, Brown Rostock | 19, Brown Schwerin | 15, Brown Berlin
+
+
+Yellow Dresden | 19, Yellow Erfurt | 13, Yellow Leipzig | 16, Brown Frankfurt-O
+
+
+Purple Regensburg | 12, Yellow Nurnberg | 13, Purple Augsburg | 10, Purple Munchen | 12, Purple Passau
+
+
+Purple Passau | 12, Purple Regensburg | 14, Purple Munchen
+
+
+Purple Munchen | 10, Purple Regensburg | 14, Purple Passau | 6, Purple Augsburg
+
+
+Purple Augsburg | 18, Yellow Nurnberg | 19, Yellow Wurzburg | 13, Purple Regensburg | 6, Purple Munchen | 15, Purple Stuttgart | 17, Purple Konstanz
+
+
+Purple Stuttgart | 12, Yellow Wurzburg | 6, Blue Mannheim | 17, Blue Saarbrucken | 15, Purple Augsburg | 16, Purple Konstanz | 16, Purple Freiburg
+
+
+Purple Konstanz | 17, Purple Augsburg | 16, Purple Stuttgart | 14, Purple Freiburg
+
+
+Purple Freiburg | 16, Purple Stuttgart | 14, Purple Konstanz

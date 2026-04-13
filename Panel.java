@@ -12,6 +12,15 @@ boolean notFirstClick = false;
 Iterator playerIterator;
 LinkedList<DisplayElement> listOfRegions = new LinkedList<DisplayElement>();
 LinkedList<String> activeRegions = new LinkedList<String>();
+
+// Region variables declared as instance variables
+DisplayElement tealRegion;
+DisplayElement redRegion;
+DisplayElement brownRegion;
+DisplayElement yellowRegion;
+DisplayElement blueRegion;
+DisplayElement purpleRegion;
+
 public Panel() {
 	
 	BufferedImage background = null;
@@ -51,8 +60,8 @@ public Panel() {
 	 * */
 
 	TreeSet<DisplayElement> startScreen = new TreeSet<DisplayElement>(); //The screen with the start button
-	TreeSet<DisplayElement> regionSelectScreen = new TreeSet<DisplayElement>();
-	TreeSet<DisplayElement> biddingScreen = new TreeSet<DisplayElement>(); //Get to this screen by clicking the start button
+	TreeSet<DisplayElement> regionSelectScreen = new TreeSet<DisplayElement>(); //Get to this screen by clicking the start button
+	TreeSet<DisplayElement> biddingScreen = new TreeSet<DisplayElement>(); 
 
 	startScreen.add
 	(
@@ -104,13 +113,10 @@ public Panel() {
 	setScreen(startScreen);
 
 	
-	
-	
-	
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// teal region			continue this pattern for the rest of the regions
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
-	DisplayElement tealRegion = new DisplayElement(null,true ,true ,new Rectangle(0,0,100,100), 0)
+	tealRegion = new DisplayElement(null,true ,true ,new Rectangle(0,0,100,100), 0)
 																			 
 			{
 				@Override  
@@ -130,15 +136,15 @@ public Panel() {
 					if((notFirstClick || listOfRegions.contains(this))&& playerIterator.hasNext())
 					{
 						playerIterator.next();
-				/* 		listOfRegions.add(brownRegion);  
+				listOfRegions.add(brownRegion);  
 					listOfRegions.add(redRegion);
-					listOfRegions.add(yellowRegion);*/
+					listOfRegions.add(yellowRegion);
 					activeRegions.add("teal");
 					}	
 
 					if(!playerIterator.hasNext())
 					{
-						Manager.setCities(activeRegions);
+						Manager.setCities(activeRegions);//setScreen(regionSelectScreen);
 					}	
 					notFirstClick = true;	
 					
@@ -149,7 +155,7 @@ public Panel() {
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// red region			continue this pattern for the rest of the regions
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
-	DisplayElement redRegion = new DisplayElement(null,true ,true ,new Rectangle(0,0,100,100), 0)
+	redRegion = new DisplayElement(null,true ,true ,new Rectangle(0,0,100,100), 0)
 																			 
 			{
 				@Override  
@@ -168,11 +174,11 @@ public Panel() {
 					clickable = false;
 					if((notFirstClick || listOfRegions.contains(this))&& playerIterator.hasNext())
 					{
-				/* 		listOfRegions.add(tealRegion);  
+				 		listOfRegions.add(tealRegion);  
 					listOfRegions.add(yellowRegion);
 					listOfRegions.add(blueRegion);
 					activeRegions.add("red");
-					*/
+					
 					}	
 						if(!playerIterator.hasNext())
 					{
@@ -187,7 +193,7 @@ public Panel() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// brown region			continue this pattern for the rest of the regions
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
-	DisplayElement brownRegion = new DisplayElement(null,true ,true ,new Rectangle(0,0,100,100), 0)
+	brownRegion = new DisplayElement(null,true ,true ,new Rectangle(0,0,100,100), 0)
 																			 
 			{
 				@Override  
@@ -206,10 +212,10 @@ public Panel() {
 					clickable = false;
 					if((notFirstClick || listOfRegions.contains(this))&& playerIterator.hasNext())
 					{
-				/* 		listOfRegions.add(tealRegion);  
+					listOfRegions.add(tealRegion);  
 					listOfRegions.add(yellowRegion);
 					activeRegions.add("brown");
-					*/
+					
 					}	
 						if(!playerIterator.hasNext())
 					{
@@ -224,7 +230,7 @@ public Panel() {
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// yellow region			continue this pattern for the rest of the regions
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
-	DisplayElement yellowRegion = new DisplayElement(null,true ,true ,new Rectangle(0,0,100,100), 0)
+	yellowRegion = new DisplayElement(null,true ,true ,new Rectangle(0,0,100,100), 0)
 																			 
 			{
 				@Override  
@@ -243,13 +249,13 @@ public Panel() {
 					clickable = false;
 					if((notFirstClick || listOfRegions.contains(this))&& playerIterator.hasNext())
 					{
-				/* 		listOfRegions.add(tealRegion);  
+						listOfRegions.add(tealRegion);  
 					listOfRegions.add(redRegion);
 					listOfRegions.add(blueRegion);
 					listOfRegions.add(brownRegion);
 					listOfRegions.add(purpleRegion);
 					activeRegions.add("yellow");
-					*/
+					
 					}	
 						if(!playerIterator.hasNext())
 					{
@@ -263,7 +269,7 @@ public Panel() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// blue region			continue this pattern for the rest of the regions
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
-	DisplayElement blueRegion = new DisplayElement(null,true ,true ,new Rectangle(0,0,100,100), 0)
+	blueRegion = new DisplayElement(null,true ,true ,new Rectangle(0,0,100,100), 0)
 																			 
 			{
 				@Override  
@@ -282,11 +288,11 @@ public Panel() {
 					clickable = false;
 					if((notFirstClick || listOfRegions.contains(this))&& playerIterator.hasNext())
 					{
-				/* 		listOfRegions.add(yellowRegion);  
+						listOfRegions.add(yellowRegion);  
 					listOfRegions.add(redRegion);
 					listOfRegions.add(purpleRegion);
 					activeRegions.add("blue");
-					*/
+					
 					}	
 						if(!playerIterator.hasNext())
 					{
@@ -301,7 +307,7 @@ public Panel() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// purple region			continue this pattern for the rest of the regions
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
-	DisplayElement purpleRegion = new DisplayElement(null,true ,true ,new Rectangle(0,0,100,100), 0)
+	purpleRegion = new DisplayElement(null,true ,true ,new Rectangle(0,0,100,100), 0)
 																			 
 			{
 				@Override  
@@ -320,10 +326,10 @@ public Panel() {
 					clickable = false;
 					if((notFirstClick || listOfRegions.contains(this))&& playerIterator.hasNext())
 					{
-				/* 		listOfRegions.add(yellowRegion);  
+						listOfRegions.add(yellowRegion);  
 					listOfRegions.add(blueRegion);
 					activeRegions.add("purple");
-					*/
+					
 					}	
 					if(!playerIterator.hasNext())
 					{
@@ -351,14 +357,17 @@ public Panel() {
 				
 				public void click(MouseEvent e)
 				{
-					
+					playerIterator.next()
 				}
 			}
 	);
  */
-
+	regionSelectScreen.addAll(Arrays.asList(tealRegion,redRegion,brownRegion,yellowRegion,blueRegion,purpleRegion));
+	
+	
 	//Add all of the regions
 	
+
 	
 }
 
@@ -418,7 +427,7 @@ public void mouseClicked(MouseEvent e) {
 int x = (int)(e.getX() * 1000.0 / getWidth());
 int y = (int)(e.getY() * 1000.0 / getHeight());
 DisplayElement ptr = new DisplayElement(null,false,false,null,0);
-ListIterator<DisplayElement> it = currentScreen.ListIterator();
+Iterator<DisplayElement> it = currentScreen.iterator();
 while(it.hasNext())
 {
 ptr = it.next();

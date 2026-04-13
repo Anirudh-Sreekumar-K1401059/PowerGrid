@@ -8,22 +8,31 @@ public class Manager{
     static HashMap<Type, TreeMap<Integer,ArrayList<Resource>>> market;
     static HashMap<Type, Integer> resourceNotInMarket;
    static HashMap<Integer, Integer> income;
+
     static HashMap<Integer, HashMap<Type, Integer>> resupply;
+        
+
+    
     static ArrayList<Player> playerOrder;
     static TreeSet<PowerPlant> powerPlantMarket;
-    ArrayList<City> cities;
-    ArrayList<String> selectedRegions;
-    int step;
-    int phase = 1;
+    static ArrayList<City> cities;
+    static ArrayList<String> selectedRegions;
+    static int step;
+    static int phase = 1;
     static int turn;
-    boolean isStepThree;
-    int cost;
-    int numPasses;
-    boolean isAuctionOver;
-    boolean isMaterialBuyingOver;
-    boolean isBuildingOver;
+    static boolean isStepThree;
+    static int cost;
+    static int numPasses;
+    /*static boolean isTurnOrderOver;
+    static boolean isAuctionOver;
+    static boolean isMaterialBuyingOver;
+    static boolean isBuildingOver;
+   */ static boolean isBuracreacyOver;
     static Player currPlayer;
 
+    public void createResupply() {
+
+    }
     
     public static void setGame(){
     	//
@@ -45,13 +54,75 @@ public class Manager{
     }
 
     public static void setCities(LinkedList<String> selectedRegions) {
-        //use scanner for everything
+           //use scanner for everything
         //if the region color is in the linkedlist:
             //read the city name and make a new object if it doesn't already exist in the class arraylist called cities
             //then read the following integer and keep it in a temporary variable 
             //read the connecting city region color. if its in selectedRegions:
                 //check if the city is in the class variable 
     
+        try {
+            Scanner scanner = new Scanner(new java.io.File("CitiesText/Cities.txt"));
+            
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine().trim();
+                if (line.isEmpty()) continue;
+                
+                String[] parts = line.split(" \\| ");
+                
+                String[] cityParts = parts[0].trim().split(" ", 2);
+                String region = cityParts[0];
+                String cityName = cityParts[1];
+                
+                // Check if region is in selectedRegions
+                if (!selectedRegions.contains(region)) continue;
+                
+                // Create or find the city
+                City city = null;
+                for (City c : cities) {
+                    if (c.name.equals(cityName) && c.region.equals(region)) {
+                        city = c;
+                        break;
+                    }
+                }
+                if (city == null) {
+                    city = new City(cityName, region);
+                    cities.add(city);
+                }
+                
+                for (int i = 1; i < parts.length; i++) {
+                    String[] connectionParts = parts[i].trim().split(", ");
+                    int cost = Integer.parseInt(connectionParts[connectionParts.length - 1]);
+                    
+                    String[] connectedCityParts = connectionParts[0].split(" ", 2);
+                    String connectedRegion = connectedCityParts[0];
+                    String connectedCityName = connectedCityParts[1];
+                    
+                    // Check if connected city's region is in selectedRegions
+                    if (!selectedRegions.contains(connectedRegion)) continue;
+                    
+                    // Find or create connected city
+                    City connectedCity = null;
+                    for (City c : cities) {
+                        if (c.name.equals(connectedCityName) && c.region.equals(connectedRegion)) {
+                            connectedCity = c;
+                            break;
+                        }
+                    }
+                    if (connectedCity == null) {
+                        connectedCity = new City(connectedCityName, connectedRegion);
+                        cities.add(connectedCity);
+                    }
+                    
+                    // Add connection
+                    city.connections.put(connectedCity, cost);
+                }
+            }
+            
+            scanner.close();
+        } catch (java.io.FileNotFoundException e) {
+            System.out.println("Cities.txt file not found");
+        }
     }
 
     public static void setResources() {
@@ -160,30 +231,43 @@ public class Manager{
     
     
 
-    public static void gameState() {
+    public static void changeGameState() {
+        /*static int step;
+    static int phase = 1;
+    static int turn;
+    static boolean isStepThree;
+    static int cost;
+    static int numPasses;
+    
+    static Player currPlayer;
+    */
         
 
     }
 
-    public static  void purchaseRes() {
+   /* public static  void purchaseRes() {
+        if(player.elektros >= resource.ge(elekros)){
+            player.rescource.add(resource)
+        }
         //check if the player has enough elektros to buy the resource
         //if they do, subtract the cost from their elektros and add the resource to their inventory
         //if they don't, show an error message
     }
+    */
 
-    public static void bid() {
-        //check if entered number is higher than current bid 
-        //if the entered number is higher, set current bid to this
-        //if entered number is lower, count it as a pass and numPasses++
+
+    public static void bid(int offer) {
+        //check if offer is higher than current bid 
+        //if offer is higher, set current bid to this
+        //if offer is lower, count it as a pass and numPasses++
         //call currPlayer.updateElektros(-currentBid) to subtract the bid amount from the player's elektros
+
+        
+
+
+    }
+
     
-
-
-    }
-
-    public static  void pass() {
-
-    }
 
     public static void determineOrder() {
         	//sort player order based on the power plant they have with the lowest number

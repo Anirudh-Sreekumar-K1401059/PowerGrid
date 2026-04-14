@@ -31,7 +31,10 @@ public class Manager{
     static Player currPlayer;
 
     public void createResupply() {
+        //use the resupply hashmap
+        //
 
+        
     }
     
     public static void setGame(){
@@ -241,19 +244,18 @@ public class Manager{
     
     static Player currPlayer;
     */
-        
-
     }
 
-   /* public static  void purchaseRes() {
-        if(player.elektros >= resource.ge(elekros)){
-            player.rescource.add(resource)
+   public static void purchaseRes(Type t, int re) {
+        if(Player.elektros >= t.reuqiredElektros *res)){
+            Player.myRes.add(t);
+            Player.updateElektros(-t.requiredElektros*res);
         }
         //check if the player has enough elektros to buy the resource
         //if they do, subtract the cost from their elektros and add the resource to their inventory
         //if they don't, show an error message
     }
-    */
+    
 
 
     public static void bid(int offer) {
@@ -300,18 +302,21 @@ public class Manager{
     }
 
     public static void refillRes() { //what does this method do. add comments to the code
-        if (playerOrder == null || playerOrder.isEmpty()) {
-            return;
-        }
-
-        for (Player player : playerOrder) {//resupply is not done by a player to player basis. you just add the required resources into the market
+/* WHAT THIS METHOD DOES"
+    -references the hashmap called resupply and puts the correct amount of resources back into the market (it depends on the step and the resource)
+    -this happens at the end of buracreacy
+*/
+    //static HashMap<Type, TreeMap<Integer,ArrayList<Resource>>> market;
+    market.put(Type.URANIUM, resupply.getValue(step.getValue(Type.URANIUM)));
+    
+            //resupply is not done by a player to player basis. you just add the required resources into the market
             HashMap<Resource, Integer> resupplyForPlayer = resupply.get(player.getColor());
             for (Map.Entry<Resource, Integer> entry : resupplyForPlayer.entrySet()) {
                 Resource resource = entry.getKey();
-                int quantity = entry.getValue();
+                //int quantity = entry.getValue();
                 player.myRes.put(resource, player.myRes.getOrDefault(resource, 0) + quantity);
             }
-        }
+        
     }
 
     public static void updateMarket() {
@@ -346,19 +351,19 @@ public class Manager{
    public void phaseOver() {
         if (phase == 1) {
             // Check if all players have passed in the auction phase
-            if (isAuctionOver) {
+            if (turn==4) {
                 phase = 2;
                 System.out.println("Auction phase over. Moving to Resource Buying phase.");
             }
         } else if (phase == 2) {
             // Check if all players have finished buying resources
-            if (isMaterialBuyingOver) {
+            if (turn==4) {
                 phase = 3;
                 System.out.println("Resource Buying phase over. Moving to Building phase.");
             }
         } else if (phase == 3) {
             // Check if all players have finished building
-            if (isBuildingOver) {
+            if (turn==4) {
                 phase = 4;
                 System.out.println("Building phase over. Moving to Bureaucracy phase.");
             }

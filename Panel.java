@@ -24,10 +24,12 @@ DisplayElement purpleRegion;
 public Panel() {
 	
 	BufferedImage background = null;
+	BufferedImage map = null;
 	addMouseListener(this);
 	 try{
 		//we are going to make miscelanious images here
 	   background = ImageIO.read(Panel.class.getResource("/GUI Images/StartScreenImage.png")); 
+	   map = ImageIO.read(Panel.class.getResource("/GUI Images/Map.png"));
 	 }
 	 catch(Exception e){
 		 System.out.println(e);
@@ -144,7 +146,7 @@ public Panel() {
 
 					if(!playerIterator.hasNext())
 					{
-						Manager.setCities(activeRegions);//setScreen(regionSelectScreen);
+						Manager.setCities(activeRegions); setScreen(regionSelectScreen);
 					}	
 					notFirstClick = true;	
 					
@@ -155,7 +157,7 @@ public Panel() {
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// red region			continue this pattern for the rest of the regions
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
-	redRegion = new DisplayElement(null,true ,true ,new Rectangle(0,0,100,100), 0)
+	redRegion = new DisplayElement(null,true ,true ,new Rectangle(100,100,100,100), 0)
 																			 
 			{
 				@Override  
@@ -193,7 +195,7 @@ public Panel() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// brown region			continue this pattern for the rest of the regions
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
-	brownRegion = new DisplayElement(null,true ,true ,new Rectangle(0,0,100,100), 0)
+	brownRegion = new DisplayElement(null,true ,true ,new Rectangle(200,200,100,100), 0)
 																			 
 			{
 				@Override  
@@ -230,7 +232,7 @@ public Panel() {
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// yellow region			continue this pattern for the rest of the regions
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
-	yellowRegion = new DisplayElement(null,true ,true ,new Rectangle(0,0,100,100), 0)
+	yellowRegion = new DisplayElement(null,true ,true ,new Rectangle(400,400,100,100), 0)
 																			 
 			{
 				@Override  
@@ -269,7 +271,7 @@ public Panel() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// blue region			continue this pattern for the rest of the regions
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
-	blueRegion = new DisplayElement(null,true ,true ,new Rectangle(0,0,100,100), 0)
+	blueRegion = new DisplayElement(null,true ,true ,new Rectangle(500,500,100,100), 0)
 																			 
 			{
 				@Override  
@@ -307,7 +309,7 @@ public Panel() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// purple region			continue this pattern for the rest of the regions
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
-	purpleRegion = new DisplayElement(null,true ,true ,new Rectangle(0,0,100,100), 0)
+	purpleRegion = new DisplayElement(null,true ,true ,new Rectangle(600,600,100,100), 0)
 																			 
 			{
 				@Override  
@@ -340,7 +342,7 @@ public Panel() {
 					
 				}
 			};
-/* 
+
 	regionSelectScreen.add
 	(
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -352,21 +354,38 @@ public Panel() {
 				@Override  
 				public void draw(Graphics2D g) 
 				{
-					g.drawimage(this.i,x(this.x),y(this.y),x(this.width).y(this.height));
+					g.drawImage(this.i,x(this.x),y(this.y),x(this.width),y(this.height),null);
 				}
 				
 				public void click(MouseEvent e)
 				{
-					playerIterator.next()
+					playerIterator.next();
 				}
 			}
 	);
- */
+ 
 	regionSelectScreen.addAll(Arrays.asList(tealRegion,redRegion,brownRegion,yellowRegion,blueRegion,purpleRegion));
 	
 	
 	//Add all of the regions
 	
+	biddingScreen.add 
+	(
+			new DisplayElement(map,false ,true ,new Rectangle(400,0,600,1000),-1)
+																			 
+			{
+				@Override  
+				public void draw(Graphics2D g) 
+				{
+					
+				}
+				
+				public void click(MouseEvent e)
+				{
+					
+				}
+			}
+	);
 
 	
 }

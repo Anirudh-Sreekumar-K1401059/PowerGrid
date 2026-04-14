@@ -9,7 +9,7 @@ public class Panel extends JPanel implements MouseListener{
 	
 
 boolean notFirstClick = false;	
-Iterator playerIterator;
+Iterator<Player> playerIterator; Player currentPlayer;
 LinkedList<DisplayElement> listOfRegions = new LinkedList<DisplayElement>();
 LinkedList<String> activeRegions = new LinkedList<String>();
 
@@ -146,7 +146,9 @@ public Panel() {
 
 					if(!playerIterator.hasNext())
 					{
-						Manager.setCities(activeRegions); setScreen(regionSelectScreen);
+						Manager.setCities(activeRegions);
+						setScreen(regionSelectScreen);
+						playerIterator = Manager.playerOrder.iterator();
 					}	
 					notFirstClick = true;	
 					
@@ -369,24 +371,40 @@ public Panel() {
 	
 	//Add all of the regions
 	
+	/*  
+				public void draw(Graphics2D g) 
+				{
+					g.rotate(Math.toRadians(90), x(this.x + this.width/2), y(this.y + this.height/2));
+					g.drawImage(this.i,x(this.x),y(this.y),x(this.width),y(this.height),null);
+				}
+			*/
+
 	biddingScreen.add 
 	(
-			new DisplayElement(map,false ,true ,new Rectangle(400,0,600,1000),-1)
-																			 
+			new DisplayElement(null,false ,true ,new Rectangle(300,800,200,100),1)
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// Pass button
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////													 
 			{
 				@Override  
 				public void draw(Graphics2D g) 
 				{
-					
+					g.setColor(Color.BLACK);
+				g.fillRect(x(this.x),y(this.y),x(this.width),y(this.height));
+				g.setColor(Color.WHITE);
+				g.setFont(new Font("Arial",Font.BOLD,x(50)));
+				g.drawString("Pass", x(this.x+25), y(this.y+75));
+				//check rounds
 				}
-				
+
 				public void click(MouseEvent e)
 				{
 					
+					currentPlayer = playerIterator.next();
+
 				}
 			}
 	);
-
 	
 }
 

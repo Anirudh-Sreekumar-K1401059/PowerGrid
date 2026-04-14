@@ -2,6 +2,10 @@ import java.awt.image.BufferedImage;
 import java.util.*;
 import javax.imageio.ImageIO;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+
+
 public class Manager{
 
     static ArrayList<PowerPlant> powerPlantDeck;
@@ -10,7 +14,8 @@ public class Manager{
    static HashMap<Integer, Integer> income;
 
     static HashMap<Integer, HashMap<Type, Integer>> resupply;
-        
+        //first integer is step
+        //hashmap is <the resource, the amount needed to be put back into the market>
 
     
     static ArrayList<Player> playerOrder;
@@ -33,8 +38,18 @@ public class Manager{
     public void createResupply() {
         //use the resupply hashmap
         //
+        resupply.put(1, new HashMap<>());
+        resupply.get(1).put(Type.COAL, 3);
+        resupply.get(1).put(Type.OIL, 2);
+        resupply.get(1).put(Type.TRASH, 1);
+        resupply.get(1).put(Type.URANIUM, 1);
 
-        
+        resupply.put(2,new HashMap<>());
+        resupply.get(2).put(Type.COAL, 4);
+        resupply.get(2).put(Type.OIL, 2);
+        resupply.get(2).put(Type.TRASH, 2);
+        resupply.get(2).put(Type.URANIUM, 1);
+
     }
     
     public static void setGame(){
@@ -230,6 +245,44 @@ public class Manager{
         catch(Exception e) {
             System.out.println("Error");
         }
+        
+ try {
+            File file = new File("Powerplants.txt"); 
+            Scanner myReader = new Scanner(file);
+            while (myReader.hasNextLine()) {
+                    String line = myReader.nextLine();
+                    String[] parts = line.split(" | ");
+                    int number = Integer.parseInt(parts[1]);
+                
+                    int citiesPowered = Integer.parseInt(parts[0]);
+                    int cost = Integer.parseInt(parts[1]);
+                    powerPlantDeck.add(new PowerPlant(number, resourceType, resourceAmount, citiesPowered, cost));
+                    // Type resourceType = Type.valueOf(parts[1].toUpperCase());
+                    //int resourceAmount = Integer.parseInt(parts[2]);
+                //String data = myReader.nextLine();
+               // System.out.println(data);
+            }
+            myReader.close(); // Close scanner
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found.");
+            e.printStackTrace();
+        }
+        
+
+      /*  Scanner scanner = new Scanner(file);
+        while(scanner.hasNextLine()) {
+            String line = scanner.nextLine();
+            String[] parts = line.split(", ");
+            int number = Integer.parseInt(parts[0]);
+            Type resourceType = Type.valueOf(parts[1].toUpperCase());
+            int resourceAmount = Integer.parseInt(parts[2]);
+            int citiesPowered = Integer.parseInt(parts[3]);
+            int cost = Integer.parseInt(parts[4]);
+            powerPlantDeck.add(new PowerPlant(number, resourceType, resourceAmount, citiesPowered, cost));
+        }*/
+
+
+
     }
     
     
@@ -246,11 +299,21 @@ public class Manager{
     */
     }
 
-   public static void purchaseRes(Type t, int re) {
+   public static void purchaseRes(Type t, int re) { // re is the amount of that certain resource they bought 
         if(Player.elektros >= t.reuqiredElektros *res)){
             Player.myRes.add(t);
             Player.updateElektros(-t.requiredElektros*res);
+        } else {
+            System.out.println("Not enough elektros to purchase resource");
         }
+
+    /*
+
+step 1: calculate the amount that is being charged
+step 2: check how much $$ the player 
+
+    */
+
         //check if the player has enough elektros to buy the resource
         //if they do, subtract the cost from their elektros and add the resource to their inventory
         //if they don't, show an error message
@@ -306,17 +369,12 @@ public class Manager{
     -references the hashmap called resupply and puts the correct amount of resources back into the market (it depends on the step and the resource)
     -this happens at the end of buracreacy
 */
-    //static HashMap<Type, TreeMap<Integer,ArrayList<Resource>>> market;
-    market.put(Type.URANIUM, resupply.getValue(step.getValue(Type.URANIUM)));
-    
-            //resupply is not done by a player to player basis. you just add the required resources into the market
-            HashMap<Resource, Integer> resupplyForPlayer = resupply.get(player.getColor());
-            for (Map.Entry<Resource, Integer> entry : resupplyForPlayer.entrySet()) {
-                Resource resource = entry.getKey();
-                //int quantity = entry.getValue();
-                player.myRes.put(resource, player.myRes.getOrDefault(resource, 0) + quantity);
-            }
-        
+    //static HashMap<Type, TreeMap<Integer,ArrayList<Resource>>> market
+
+    addMarketResource(Type.URANIUM, resupply.get(step).get(Type.URANIUM));
+    addMarketResource(Type.COAL, resupply.get(step).get(Type.COAL));
+    addMarketResource(Type.OIL, resupply.get(step).get(Type.OIL));
+    addMarketResource(Type.TRASH, resupply.get(step).get(Type.TRASH));
     }
 
     public static void updateMarket() {

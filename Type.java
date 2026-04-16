@@ -1,7 +1,7 @@
 public enum Type {
     COAL,
     OIL,
-    TRASH,
+    GARBAGE,
     URANIUM;
 
     @Override
@@ -11,8 +11,8 @@ public enum Type {
                 return "Coal";
             case OIL:
                 return "Oil";
-            case TRASH:
-                return "Trash";
+            case GARBAGE:
+                return "Garbage";
             case URANIUM:
                 return "Uranium";
             default:

@@ -8,12 +8,12 @@ import java.util.*;
 public class Panel extends JPanel implements MouseListener{
 	
 
-boolean notFirstClick = false;	
-Iterator<Player> playerIterator; Player currentPlayer;
+boolean notFirstClick = false, firstRound = true;
+Iterator<Player> playerIterator;
 LinkedList<DisplayElement> listOfRegions = new LinkedList<DisplayElement>();
 LinkedList<String> activeRegions = new LinkedList<String>();
+String bidInpuString = "weed eater";
 
-// Region variables declared as instance variables
 DisplayElement tealRegion;
 DisplayElement redRegion;
 DisplayElement brownRegion;
@@ -37,7 +37,7 @@ public Panel() {
 	
 	
 							 
-	/* This is a copyable template to use. Once everyone has learned how to use the DisplayElement Class, just delete the above demo
+	/* This is a copyable template to use.
 	 * 
 	 * exampleScreen.add 
 	(
@@ -63,7 +63,7 @@ public Panel() {
 
 	TreeSet<DisplayElement> startScreen = new TreeSet<DisplayElement>(); //The screen with the start button
 	TreeSet<DisplayElement> regionSelectScreen = new TreeSet<DisplayElement>(); //Get to this screen by clicking the start button
-	TreeSet<DisplayElement> biddingScreen = new TreeSet<DisplayElement>(); 
+	TreeSet<DisplayElement> biddingScreen = new TreeSet<DisplayElement>(); //Get to this screen by having 4 passes in a row
 
 	startScreen.add
 	(
@@ -394,17 +394,72 @@ public Panel() {
 				g.setColor(Color.WHITE);
 				g.setFont(new Font("Arial",Font.BOLD,x(50)));
 				g.drawString("Pass", x(this.x+25), y(this.y+75));
-				//check rounds
+
+				if(Manager.currPlayer.didPassOrBid) this.click(null);
+				if(firstRound) clickable = true;
 				}
 
 				public void click(MouseEvent e)
 				{
-					
-					currentPlayer = playerIterator.next();
+					Manager.bid(0);	
+					Manager.currPlayer.didPassOrBid = true;
+					if(Manager.numPasses > 3) ;//player with the highest bid earns the next power plant, and if no player can choose plant for auction, move on
+					Manager.currPlayer = playerIterator.next();
+					repaint();
+				}
+			}
+	);
+
+	
+	biddingScreen.add 
+	(
+			new DisplayElement(null,false ,true ,new Rectangle(300,600,200,100),1)
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// Bid button
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////													 
+			{
+				@Override  
+				public void draw(Graphics2D g) 
+				{
+					g.setColor(Color.BLACK);
+				g.fillRect(x(this.x),y(this.y),x(this.width),y(this.height));
+				g.setColor(Color.WHITE);
+				g.setFont(new Font("Arial",Font.BOLD,x(50)));
+				g.drawString("Bid", x(this.x+25), y(this.y+75));
+
+				for(DisplayElement d : Manager.powerPlantMarket) if(d.displayable) d.draw(g);
+				}
+
+				public void click(MouseEvent e)
+				{
+					while(!bidInpuString.matches("\\d+"))
+					bidInpuString = JOptionPane.showInputDialog("How much are you bidding?");
+					Manager.bid(Integer.decode(bidInpuString));	
+					Manager.currPlayer = playerIterator.next();
 
 				}
 			}
 	);
+
+	/*
+	To do list: 
+		1.bid method
+			1.1: numPasses has to wrap around to 0
+			1.2: currPlayer gets the powerPlant
+			1.3: updateMarket
+		2. Player
+			2.1: Change PassOrBid to Pass
+			2.2: canChooseAuctionPlant to Player
+			2.3: TreeSet<DisplayElement> playerScreen
+		3. Updatemarket
+			3.1: add frontEnd to updateMarket
+			3.2: make sure market is being updated correctly based on the step
+		4. Manager
+			4.1 make int currentBid
+			4.2 make PowerPlant plantForAuction
+		5. Create the Player Screens
+	*/
+	
 	
 }
 

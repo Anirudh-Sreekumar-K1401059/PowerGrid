@@ -326,7 +326,7 @@ step 2: check how much $$ the player
         //if offer is higher, set current bid to this
         //if offer is lower, count it as a pass and numPasses++
         //call currPlayer.updateElektros(-currentBid) to subtract the bid amount from the player's elektros
-
+    
         
 
 

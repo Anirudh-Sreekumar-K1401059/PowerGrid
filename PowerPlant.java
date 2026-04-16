@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.util.*;
 
@@ -32,5 +33,19 @@ public void useRes(Player p, String r){}
 public int getNum(){return num;}
 
 public void setPoweredStatus(boolean in) {isPowered = in;}
+
+public void draw(Graphics2D g)
+{
+    
+}
+
+public void click(MouseEvent e)
+{
+    //if(we are bidding)
+        //check if a power plant has already been selected and flag the plant as being up for auction
+        //make all power plants unclickable
+        //set minnimum bid cost as the power plant number
+        //
+}
 
 }

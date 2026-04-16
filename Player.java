@@ -7,17 +7,19 @@ public class Player implements Comparable<Player>{
    public HashMap<Resource, Integer> myRes = new HashMap<>();  
    private int elektros; 
    private int numCitiesPowered; 
-   public boolean didPassOrBid;
+   public boolean pass;
    private boolean isFinished; 
+   private boolean canChooseAuctionPlant;
    private String color;
+   private TreeSet<DisplayElement> playerScreen;
    
    public Player(String c) {
 	   color = c;
 	   elektros = 50;
 	   numCitiesPowered = 0;
-	   didPassOrBid = false;
+	   pass = false;
 	   isFinished = false; 
-	   
+	   canChooseAuctionPlant = true;
    }
    
 //Methods

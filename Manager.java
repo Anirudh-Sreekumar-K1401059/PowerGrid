@@ -20,13 +20,14 @@ public class Manager{
     
     static ArrayList<Player> playerOrder;
     static TreeSet<PowerPlant> powerPlantMarket;
+    static PowerPlant currentAuctionPlant;
     static ArrayList<City> cities;
     static ArrayList<String> selectedRegions;
     static int step;
     static int phase = 1;
     static int turn;
     static boolean isStepThree;
-    static int cost;
+    static int cost; 
     static int numPasses;
     /*static boolean isTurnOrderOver;
     static boolean isAuctionOver;
@@ -35,22 +36,31 @@ public class Manager{
    */ static boolean isBuracreacyOver;
     static Player currPlayer;
 
-    public void createResupply() {
-        //use the resupply hashmap
-        //
-        resupply.put(1, new HashMap<>());
-        resupply.get(1).put(Type.COAL, 3);
-        resupply.get(1).put(Type.OIL, 2);
-        resupply.get(1).put(Type.TRASH, 1);
-        resupply.get(1).put(Type.URANIUM, 1);
+   public void createResupply() {   //4 player 
 
-        resupply.put(2,new HashMap<>());
-        resupply.get(2).put(Type.COAL, 4);
-        resupply.get(2).put(Type.OIL, 2);
-        resupply.get(2).put(Type.TRASH, 2);
-        resupply.get(2).put(Type.URANIUM, 1);
+    resupply = new HashMap<>();
 
-    }
+    // Step 1
+    resupply.put(1, new HashMap<>());
+    resupply.get(1).put(Type.COAL, 5);
+    resupply.get(1).put(Type.OIL, 3);
+    resupply.get(1).put(Type.TRASH, 2);
+    resupply.get(1).put(Type.URANIUM, 1);
+
+    // Step 2
+    resupply.put(2, new HashMap<>());
+    resupply.get(2).put(Type.COAL, 6);
+    resupply.get(2).put(Type.OIL, 4);
+    resupply.get(2).put(Type.TRASH, 3);
+    resupply.get(2).put(Type.URANIUM, 2);
+
+    // Step 3
+    resupply.put(3, new HashMap<>());
+    resupply.get(3).put(Type.COAL, 4);
+    resupply.get(3).put(Type.OIL, 5);
+    resupply.get(3).put(Type.TRASH, 4);
+    resupply.get(3).put(Type.URANIUM, 2);
+}
     
     public static void setGame(){
     	//
@@ -251,16 +261,18 @@ public class Manager{
             Scanner myReader = new Scanner(file);
             while (myReader.hasNextLine()) {
                     String line = myReader.nextLine();
-                    String[] parts = line.split(" | ");
+                    String[] parts = line.split("//|");
                     int number = Integer.parseInt(parts[1]);
                 
                     int citiesPowered = Integer.parseInt(parts[0]);
-                    int cost = Integer.parseInt(parts[1]);
-                    powerPlantDeck.add(new PowerPlant(number, resourceType, resourceAmount, citiesPowered, cost));
-                    // Type resourceType = Type.valueOf(parts[1].toUpperCase());
-                    //int resourceAmount = Integer.parseInt(parts[2]);
-                //String data = myReader.nextLine();
-               // System.out.println(data);
+                    int price = Integer.parseInt(parts[1]);
+                      Type resourceType = Type.valueOf(parts[1].toUpperCase());
+                int resourceAmount = Integer.parseInt(parts[2]);
+                    //powerPlantDeck.add(new PowerPlant(number, resourceType, resourceAmount, citiesPowered, cost));
+                    
+                  
+                String data = myReader.nextLine();
+                System.out.println(data);
             }
             myReader.close(); // Close scanner
         } catch (FileNotFoundException e) {
@@ -285,7 +297,18 @@ public class Manager{
 
     }
     
-    
+    public static void auction() {
+        
+    }
+
+    //public static String purchaseCity(City wanted) {
+        //if player has bought at least one city:
+            
+            //find a city that is connected to wanted and is owned by the currPlayer 
+            //use the class variable, cost, to add the connection price AND the wanted's price
+            //check if player is at least that many elektros
+            //if they can't return string "cannot afford", else return String of city they bought
+       // }
 
     public static void changeGameState() {
         /*static int step;
@@ -300,24 +323,42 @@ public class Manager{
     }
 
    public static void purchaseRes(Type t, int re) { // re is the amount of that certain resource they bought 
-        if(Player.elektros >= t.reuqiredElektros *res)){
-            Player.myRes.add(t);
-            Player.updateElektros(-t.requiredElektros*res);
+        TreeMap<Integer, ArrayList<Resource>> subMarket = market.get(t);
+        int totalCost = 0;
+        ArrayList<Resource> purchased = new ArrayList<>();
+        
+        // Get the cheapest resources from the market
+        for (Integer price : subMarket.keySet()) {
+            ArrayList<Resource> resourcesAtPrice = subMarket.get(price);
+            while (purchased.size() < re && !resourcesAtPrice.isEmpty()) {
+                Resource res = resourcesAtPrice.remove(0);
+                purchased.add(res);
+                totalCost += price;
+            }
+            if (purchased.size() == re) break;
+        }
+        
+        // Check if we got enough resources
+        if (purchased.size() < re) {
+            System.out.println("Not enough resources in market");
+            return;
+        }
+        
+        // Check if player has enough elektros
+        if (currPlayer.getElektros() >= totalCost) {
+            // Add resources to player's inventory
+            for (Resource res : purchased) {
+                if (currPlayer.myRes.containsKey(res)) {
+                    currPlayer.myRes.put(res, currPlayer.myRes.get(res) + 1);
+                } else {
+                    currPlayer.myRes.put(res, 1);
+                }
+            }
+            currPlayer.updateElektros(-totalCost);
         } else {
             System.out.println("Not enough elektros to purchase resource");
         }
-
-    /*
-
-step 1: calculate the amount that is being charged
-step 2: check how much $$ the player 
-
-    */
-
-        //check if the player has enough elektros to buy the resource
-        //if they do, subtract the cost from their elektros and add the resource to their inventory
-        //if they don't, show an error message
-    }
+    } 
     
 
 

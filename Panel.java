@@ -395,14 +395,14 @@ public Panel() {
 				g.setFont(new Font("Arial",Font.BOLD,x(50)));
 				g.drawString("Pass", x(this.x+25), y(this.y+75));
 
-				if(Manager.currPlayer.didPassOrBid) this.click(null);
+				if(Manager.currPlayer.pass) this.click(null);
 				if(firstRound) clickable = true;
 				}
 
 				public void click(MouseEvent e)
 				{
 					Manager.bid(0);	
-					Manager.currPlayer.didPassOrBid = true;
+					Manager.currPlayer.pass = true;
 					if(Manager.numPasses > 3) ;//player with the highest bid earns the next power plant, and if no player can choose plant for auction, move on
 					Manager.currPlayer = playerIterator.next();
 					repaint();
@@ -448,15 +448,13 @@ public Panel() {
 			1.2: currPlayer gets the powerPlant
 			1.3: updateMarket
 		2. Player
-			2.1: Change PassOrBid to Pass
-			2.2: canChooseAuctionPlant to Player
-			2.3: TreeSet<DisplayElement> playerScreen
+			
+			
 		3. Updatemarket
 			3.1: add frontEnd to updateMarket
 			3.2: make sure market is being updated correctly based on the step
 		4. Manager
 			4.1 make int currentBid
-			4.2 make PowerPlant plantForAuction
 		5. Create the Player Screens
 	*/
 	
@@ -524,9 +522,11 @@ while(it.hasNext())
 {
 ptr = it.next();
 if(ptr.contains(x,y))
+{
 ptr.click(e);
+System.out.println(ptr+" "+x+" "+y);
 }
-
+}
 repaint();
 }
 

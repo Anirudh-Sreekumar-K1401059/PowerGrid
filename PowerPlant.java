@@ -14,6 +14,7 @@ public PowerPlant(int num, int numPossibleCities, HashMap<Resource, Integer> res
         //TODO Auto-generated constructor stub
     }
 
+
 private int num;
 
 private int numPossibleCities;
@@ -41,6 +42,13 @@ public void draw(Graphics2D g)
 
 public void click(MouseEvent e)
 {
+    if(Manager.phase==1)
+    {
+        if(Manager.currentAuctionPlant==null) Manager.currentAuctionPlant=this;
+        else return;
+        for(PowerPlant p: Manager.powerPlantMarket)  p.setClickable(false);
+         Manager.cost=this.getNum();
+    }
     //if(we are bidding)
         //check if a power plant has already been selected and flag the plant as being up for auction
         //make all power plants unclickable

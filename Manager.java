@@ -293,7 +293,7 @@ public class Manager{
             powerPlantDeck.add(new PowerPlant(number, resourceType, resourceAmount, citiesPowered, cost));
         }*/
 
-
+        //AYAAN: make sure to add the power plants to the deck in the correct order, and make sure the first 8 power plants are added to the market and are displayable and clickable (make sure whens setting up the auction ,its in acending order and then shuffle the rest of the deck and add it to the class variable powerPlantDeck)
 
     }
     
@@ -301,9 +301,33 @@ public class Manager{
         
     }
 
-    //public static String purchaseCity(City wanted) {
+    public static String purchaseCity(City wanted) {
         //if player has bought at least one city:
-            
+            if(currPlayer.myCities.size()>0) {
+                for(City c: currPlayer.myCities) {
+                    if(c.connections.containsKey(wanted)) {
+                        int connectionCost = c.connections.get(wanted);
+                        int totalCost = connectionCost + wanted.cost;
+                        if(currPlayer.getElektros() >= totalCost) {
+                            currPlayer.updateElektros(-totalCost);
+                            currPlayer.myCities.add(wanted);
+                            return "City purchased: " + wanted.name;
+                        } else {
+                            return "Cannot afford city";
+                        }
+                    }
+                }
+                return "No connected city owned by player";
+            } else {
+                //if player has not bought a city, they can buy any city for its price
+                if(currPlayer.getElektros() >= wanted.cost) {
+                    currPlayer.updateElektros(-wanted.cost);
+                    currPlayer.myCities.add(wanted);
+                    return "City purchased: " + wanted.name;
+                } else {
+                    return "Cannot afford city";
+                }
+            }
             //find a city that is connected to wanted and is owned by the currPlayer 
             //use the class variable, cost, to add the connection price AND the wanted's price
             //check if player is at least that many elektros
@@ -360,16 +384,22 @@ public class Manager{
         }
     } 
     
+/*1.bid method
+			1.1: numPasses has to wrap around to 0
+			1.2: currPlayer gets the powerPlant
+			1.3: updateMarket
+			1.4: If the player does not have enough money, output false and do not allow the bid to go through
 
+		3. Updatemarket
+			3.1: add frontEnd to updateMarket
+			3.2: make sure market is being updated correctly based on the step
+			3.3: Make the power plant displayable and clickable, and make sure the player can click on the power plant to buy it */
 
     public static void bid(int offer) {
         //check if offer is higher than current bid 
         //if offer is higher, set current bid to this
         //if offer is lower, count it as a pass and numPasses++
         //call currPlayer.updateElektros(-currentBid) to subtract the bid amount from the player's elektros
-    
-        
-
 
     }
 
@@ -419,16 +449,7 @@ public class Manager{
     }
 
     public static void updateMarket() {
-        	//remove the lowest 4 power plants from the market and add 4 new ones from the deck
-        	//sort the market based on the number of cities each plant can power
-        	//if there is a tie, sort based on the resource requirements, with plants that require fewer resources coming first
-        	//if there is still a tie, sort randomly
-        	for (int i = 0; i < 4; i++) {
-        		powerPlantMarket.pollFirst();
-        		if (!powerPlantDeck.isEmpty()) {
-        			powerPlantMarket.add(powerPlantDeck.remove(0));
-        		}
-        	}
+        	
     }
 
     public static int calculateCost(Type t) { return 0;}

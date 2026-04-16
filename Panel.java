@@ -403,7 +403,10 @@ public Panel() {
 				{
 					Manager.bid(0);	
 					Manager.currPlayer.pass = true;
-					if(Manager.numPasses > 3) ;//player with the highest bid earns the next power plant, and if no player can choose plant for auction, move on
+					if(Manager.numPasses > 3)
+					{
+						Manager.highestBidder.getMyPlants().add(Manager.currentAuctionPlant);
+					} //player with the highest bid earns the next power plant, and if no player can choose plant for auction, move on
 					Manager.currPlayer = playerIterator.next();
 					repaint();
 				}
@@ -428,6 +431,7 @@ public Panel() {
 				g.drawString("Bid", x(this.x+25), y(this.y+75));
 
 				for(DisplayElement d : Manager.powerPlantMarket) if(d.displayable) d.draw(g);
+
 				}
 
 				public void click(MouseEvent e)
@@ -443,16 +447,7 @@ public Panel() {
 
 	/*
 	To do list: 
-		1.bid method
-			1.1: numPasses has to wrap around to 0
-			1.2: currPlayer gets the powerPlant
-			1.3: updateMarket
-		2. Player
-			
-			
-		3. Updatemarket
-			3.1: add frontEnd to updateMarket
-			3.2: make sure market is being updated correctly based on the step
+		
 		4. Manager
 			4.1 make int currentBid
 		5. Create the Player Screens

@@ -3,7 +3,7 @@ import java.util.*;
 public class Player implements Comparable<Player>{
 //Variables 
    private ArrayList<PowerPlant> myPlants = new ArrayList<>();
-   private ArrayList<City> myCities = new ArrayList<>();
+   public ArrayList<City> myCities = new ArrayList<>();
    public HashMap<Resource, Integer> myRes = new HashMap<>();  
    private int elektros; 
    private int numCitiesPowered; 
@@ -13,6 +13,7 @@ public class Player implements Comparable<Player>{
    private String color;
    private TreeSet<DisplayElement> playerScreen;
    
+    
    public Player(String c) {
 	   color = c;
 	   elektros = 50;
@@ -20,6 +21,8 @@ public class Player implements Comparable<Player>{
 	   pass = false;
 	   isFinished = false; 
 	   canChooseAuctionPlant = true;
+      myCities = new ArrayList<>();
+      myRes = new HashMap<>();
    }
    
 //Methods
@@ -70,6 +73,10 @@ public class Player implements Comparable<Player>{
       }
       return max;
    } 
+
+   public ArrayList<PowerPlant> getMyPlants() {
+      return myPlants;
+   }
 
 
    @Override

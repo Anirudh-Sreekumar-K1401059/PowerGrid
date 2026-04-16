@@ -3,6 +3,7 @@ public enum Type {
     OIL,
     GARBAGE,
     URANIUM;
+    FREE;
 
     @Override
     public String toString() {
@@ -15,6 +16,8 @@ public enum Type {
                 return "Garbage";
             case URANIUM:
                 return "Uranium";
+            case FREE:
+                return "Free"
             default:
                 return super.toString();
         }

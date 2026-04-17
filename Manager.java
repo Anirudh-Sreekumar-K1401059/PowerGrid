@@ -256,42 +256,43 @@ public class Manager{
             System.out.println("Error");
         }
         
- try {
-            File file = new File("Powerplants.txt"); 
-            Scanner myReader = new Scanner(file);
-            while (myReader.hasNextLine()) {
-                    String line = myReader.nextLine();
-                    String[] parts = line.split("//|");
-                    int number = Integer.parseInt(parts[1]);
-                
-                    int citiesPowered = Integer.parseInt(parts[0]);
-                    int price = Integer.parseInt(parts[1]);
-                      Type resourceType = Type.valueOf(parts[1].toUpperCase());
-                int resourceAmount = Integer.parseInt(parts[2]);
-                    //powerPlantDeck.add(new PowerPlant(number, resourceType, resourceAmount, citiesPowered, cost));
-                    
-                  
-                String data = myReader.nextLine();
-                System.out.println(data);
-            }
-            myReader.close(); // Close scanner
-        } catch (FileNotFoundException e) {
-            System.out.println("File not found.");
-            e.printStackTrace();
-        }
-        
+try {
+    File file = new File("Powerplants.txt"); 
+    Scanner myReader = new Scanner(file);
+    
+    while (myReader.hasNextLine()) {
+        String line = myReader.nextLine().trim(); // the trim is there because it will the handle the space before and after the numbers
+        if (line.isEmpty()) 
+			continue; 
 
-      /*  Scanner scanner = new Scanner(file);
-        while(scanner.hasNextLine()) {
-            String line = scanner.nextLine();
-            String[] parts = line.split(", ");
-            int number = Integer.parseInt(parts[0]);
-            Type resourceType = Type.valueOf(parts[1].toUpperCase());
-            int resourceAmount = Integer.parseInt(parts[2]);
-            int citiesPowered = Integer.parseInt(parts[3]);
-            int cost = Integer.parseInt(parts[4]);
-            powerPlantDeck.add(new PowerPlant(number, resourceType, resourceAmount, citiesPowered, cost));
-        }*/
+        String[] parts = line.split(" | ");
+        
+        int citiesPowered = Integer.parseInt(parts[0].trim());
+        int number = Integer.parseInt(parts[1].trim()); // this is the resource number and the initial bidding amount
+        
+        String resourceString = parts[2].trim();
+        Type resourceType;
+        int resourceAmount;
+
+        if (resourceString.equals("Free")) {
+            resourceType = Type.FREE; // Assumes your Type enum has FREE
+            resourceAmount = 0;
+        } else {
+          
+            String firstResource = resourceString.split(",")[0].trim(); // splits resources when there are two
+            String[] quantity = firstResource.split(" "); // splits the quantity for each resource
+            resourceAmount = Integer.parseInt(quantity[0]); //
+            resourceType = Type.valueOf(quantity[1].toUpperCase());
+        }
+
+        powerPlantDeck.add(new PowerPlant(number, resourceType, resourceAmount, citiesPowered, number));
+    }
+    myReader.close();
+} catch (FileNotFoundException e) {
+    System.out.println("File not found.");
+} catch (Exception e) {
+    System.out.println("Error parsing file: " + e.getMessage());
+}
 
         //AYAAN: make sure to add the power plants to the deck in the correct order, and make sure the first 8 power plants are added to the market and are displayable and clickable (make sure whens setting up the auction ,its in acending order and then shuffle the rest of the deck and add it to the class variable powerPlantDeck)
 

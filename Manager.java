@@ -34,7 +34,7 @@ public class Manager{
     static boolean isMaterialBuyingOver;
     static boolean isBuildingOver;
    */ static boolean isBuracreacyOver;
-    static Player currPlayer;
+    static Player currPlayer, highestBidder;
 
    public void createResupply() {   //4 player 
 
@@ -44,21 +44,21 @@ public class Manager{
     resupply.put(1, new HashMap<>());
     resupply.get(1).put(Type.COAL, 5);
     resupply.get(1).put(Type.OIL, 3);
-    resupply.get(1).put(Type.TRASH, 2);
+    resupply.get(1).put(Type.GARBAGE, 2);
     resupply.get(1).put(Type.URANIUM, 1);
 
     // Step 2
     resupply.put(2, new HashMap<>());
     resupply.get(2).put(Type.COAL, 6);
     resupply.get(2).put(Type.OIL, 4);
-    resupply.get(2).put(Type.TRASH, 3);
+    resupply.get(2).put(Type.GARBAGE, 3);
     resupply.get(2).put(Type.URANIUM, 2);
 
     // Step 3
     resupply.put(3, new HashMap<>());
     resupply.get(3).put(Type.COAL, 4);
     resupply.get(3).put(Type.OIL, 5);
-    resupply.get(3).put(Type.TRASH, 4);
+    resupply.get(3).put(Type.GARBAGE, 4);
     resupply.get(3).put(Type.URANIUM, 2);
 }
     
@@ -157,14 +157,14 @@ public class Manager{
         //creating all of the markets to access later
     	market.put(Type.COAL, new TreeMap<Integer, ArrayList<Resource>>());
     	market.put(Type.OIL, new TreeMap<Integer, ArrayList<Resource>>());
-        market.put(Type.TRASH, new TreeMap<Integer, ArrayList<Resource>>());
+        market.put(Type.GARBAGE, new TreeMap<Integer, ArrayList<Resource>>());
         market.put(Type.URANIUM, new TreeMap<Integer, ArrayList<Resource>>());
         //Adding the first 8 tiles
         for(int i=0;i<8;i++)
         {
             market.get(Type.COAL).put(i,new ArrayList<Resource>());
             market.get(Type.OIL).put(i,new ArrayList<Resource>());
-            market.get(Type.TRASH).put(i,new ArrayList<Resource>());
+            market.get(Type.GARBAGE).put(i,new ArrayList<Resource>());
             market.get(Type.URANIUM).put(i,new ArrayList<Resource>());
         }
         //Uranium slots 10 12 14 16
@@ -214,7 +214,6 @@ public class Manager{
 		return -2;
 	}
 
-    
     
     public static void setPowerPlants() {
         try{
@@ -285,7 +284,7 @@ try {
             resourceType = Type.valueOf(quantity[1].toUpperCase());
         }
 
-        powerPlantDeck.add(new PowerPlant(number, resourceType, resourceAmount, citiesPowered, number));
+        powerPlantDeck.add(new PowerPlant(number, citiesPowered,  resourceType, resourceAmount));
     }
     myReader.close();
 } catch (FileNotFoundException e) {
@@ -329,13 +328,9 @@ try {
                     return "Cannot afford city";
                 }
             }
-            //find a city that is connected to wanted and is owned by the currPlayer 
-            //use the class variable, cost, to add the connection price AND the wanted's price
-            //check if player is at least that many elektros
-            //if they can't return string "cannot afford", else return String of city they bought
-       // }
+    }
 
-    public static void changeGameState() {
+    public static void changeGameState () {
         /*static int step;
     static int phase = 1;
     static int turn;
@@ -446,7 +441,7 @@ try {
     addMarketResource(Type.URANIUM, resupply.get(step).get(Type.URANIUM));
     addMarketResource(Type.COAL, resupply.get(step).get(Type.COAL));
     addMarketResource(Type.OIL, resupply.get(step).get(Type.OIL));
-    addMarketResource(Type.TRASH, resupply.get(step).get(Type.TRASH));
+    addMarketResource(Type.GARBAGE, resupply.get(step).get(Type.GARBAGE));
     }
 
     public static void updateMarket() {

@@ -2,7 +2,7 @@ public enum Type {
     COAL,
     OIL,
     GARBAGE,
-    URANIUM;
+    URANIUM,
     FREE;
 
     @Override
@@ -13,11 +13,11 @@ public enum Type {
             case OIL:
                 return "Oil";
             case GARBAGE:
-                return "Garbage";
+                return "GARBAGE";
             case URANIUM:
                 return "Uranium";
             case FREE:
-                return "Free"
+                return "Free";
             default:
                 return super.toString();
         }

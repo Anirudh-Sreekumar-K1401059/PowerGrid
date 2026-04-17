@@ -10,6 +10,7 @@ public class City {
     boolean isAvailable;
     boolean isValidLoc;
     ArrayList<Player> occupants;
+    
     HashMap<City, Integer> connections;
     
     public City(String n, String r) {

@@ -406,6 +406,8 @@ public Panel() {
 					if(Manager.numPasses > 3)
 					{
 						Manager.highestBidder.getMyPlants().add(Manager.currentAuctionPlant);
+						Manager.updateMarket();
+						Manager.currentAuctionPlant = null;
 					} //player with the highest bid earns the next power plant, and if no player can choose plant for auction, move on
 					Manager.currPlayer = playerIterator.next();
 					repaint();

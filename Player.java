@@ -30,13 +30,13 @@ public class Player implements Comparable<Player>{
       myCities.add(city);
    }
 
-   public void addPlant (PowerPlant plant){
-      if (myPlants.size() > 2) {
-         // Popup to choose which plant to replace
-         int indexToReplace = 0; // Show popup for user to select plant to replace
-         myPlants.set(indexToReplace, plant);
+   public void addPlant (PowerPlant in, PowerPlant out){
+      if (out!=null) {
+         //transfer resources, update storage capacity, and power capacity
+         //extra resources go into Manager.resourceNotInMarket
+         //some of the code can be put into removePlant
       } else {
-         myPlants.add(plant);
+         myPlants.add(in);
       }
    }
 
@@ -53,7 +53,7 @@ public class Player implements Comparable<Player>{
    }
 
    public int canPower(){
-      return numCitiesPowered;
+      return numCitiesPowered;//This is a placeholder right?
    }
 
    public int getNumCitiesPowered() {

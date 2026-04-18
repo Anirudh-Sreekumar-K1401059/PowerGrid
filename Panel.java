@@ -16,6 +16,7 @@ String bidInpuString = "weed eater";
 boolean autoPass = false;
 
 
+
 DisplayElement tealRegion;
 DisplayElement redRegion;
 DisplayElement brownRegion;
@@ -66,6 +67,7 @@ public Panel() {
 	TreeSet<DisplayElement> startScreen = new TreeSet<DisplayElement>(); //The screen with the start button
 	TreeSet<DisplayElement> regionSelectScreen = new TreeSet<DisplayElement>(); //Get to this screen by clicking the start button
 	TreeSet<DisplayElement> biddingScreen = new TreeSet<DisplayElement>(); //Get to this screen by having 4 passes in a row
+		TreeSet<DisplayElement> replacePlantScreen = new TreeSet<DisplayElement>();
 
 	startScreen.add
 	(
@@ -384,7 +386,7 @@ public Panel() {
 			*/
 	biddingScreen.add 
 	(
-			new DisplayElement(null,false ,true ,new Rectangle(300,800,200,100),1)
+			new DisplayElement(null,true ,true ,new Rectangle(300,800,200,100),1)
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// Pass button
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////													 
@@ -411,8 +413,10 @@ public Panel() {
 					
 					if(Manager.numPasses > 2 )
 					{
-						Manager.highestBidder.getMyPlants().add(Manager.currentAuctionPlant);
-						/*add logic to the replace plant screen */
+						if(Manager.currPlayer.getMyPlants().size()>2)
+							setScreen(replacePlantScreen);
+						else
+							Manager.highestBidder.getMyPlants().add(Manager.currentAuctionPlant);
 						Manager.highestBidder.canChooseAuctionPlant = false;
 						
 						Manager.updateMarket();
@@ -438,7 +442,7 @@ public Panel() {
 							for(Player p : Manager.playerOrder) p.canChooseAuctionPlant = true; 
 							
 
-						} else if(!firstRound&&Manager.numPasses==4)
+						} else if(Manager.numPasses==4)
 						{
 							setScreen(null/*placeholder for main screen */);
 							for(Player p : Manager.playerOrder) p.canChooseAuctionPlant = true;
@@ -481,7 +485,7 @@ public Panel() {
 				{
 					while(!bidInpuString.matches("\\d+"))
 					bidInpuString = JOptionPane.showInputDialog("How much are you bidding?");
-					Manager.bid(Integer.decode(bidInpuString));	//have a boolean check if the bid went through
+					Manager.bid(Integer.decode(bidInpuString));	//have a boolean check if the bid went through, and if true, pass
 					bidInpuString = "weed eater";
 					if(playerIterator.hasNext())
 					Manager.currPlayer = playerIterator.next();
@@ -491,6 +495,43 @@ public Panel() {
 				}
 			}
 	);
+
+	int j=1;
+	for(PowerPlant p : Manager.currPlayer.getMyPlants())
+		replacePlantScreen.add 
+	(
+			new DisplayElement(p.i,true ,true,new Rectangle(j*250,450,100,100), j++)
+																			 
+			{
+				@Override  
+				public void draw(Graphics2D g) 
+				{
+					g.drawImage(i,x(this.x),y(this.y),null);
+				}
+				
+				public void click(MouseEvent e)
+				{
+					Manager.highestBidder.addPlant(Manager.currentAuctionPlant,p);//if this does not work replace with Manager.highestBidder.getMyPlants().get(this.layer)
+					setScreen(biddingScreen);
+				}
+			}
+	);
+
+
+	replacePlantScreen.add 
+	(
+			new DisplayElement(null,false ,true,new Rectangle(450,20,0,0), 1)
+																			 
+			{
+				@Override  
+				public void draw(Graphics2D g) 
+				{
+					g.drawString("REPLACE POWER PLANT",x(this.x),y(this.y));
+				}
+				
+			}
+	);
+	
 
 	/*
 	To do list: 

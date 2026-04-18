@@ -9,7 +9,7 @@ public class Player implements Comparable<Player>{
    private int numCitiesPowered; 
    public boolean pass;
    private boolean isFinished; 
-   private boolean canChooseAuctionPlant;
+   public boolean canChooseAuctionPlant;
    private String color;
    private TreeSet<DisplayElement> playerScreen;
    

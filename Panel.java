@@ -7,12 +7,14 @@ import java.awt.image.BufferedImage;
 import java.util.*;
 public class Panel extends JPanel implements MouseListener{
 	
-
+public static int scaleX, scaleY;
 boolean notFirstClick = false, firstRound = true;
-Iterator<Player> playerIterator;
+Iterator<Player> playerIterator, secondaryPlayerIterator;
 LinkedList<DisplayElement> listOfRegions = new LinkedList<DisplayElement>();
 LinkedList<String> activeRegions = new LinkedList<String>();
 String bidInpuString = "weed eater";
+boolean autoPass = false;
+
 
 DisplayElement tealRegion;
 DisplayElement redRegion;
@@ -87,6 +89,8 @@ public Panel() {
 				//Add setup code here
 				setScreen(biddingScreen); 
 				playerIterator = Manager.playerOrder.iterator();
+				secondaryPlayerIterator = Manager.playerOrder.iterator();
+				Manager.currPlayer = secondaryPlayerIterator.next();
 			}
 		}
 	);
@@ -378,7 +382,6 @@ public Panel() {
 					g.drawImage(this.i,x(this.x),y(this.y),x(this.width),y(this.height),null);
 				}
 			*/
-
 	biddingScreen.add 
 	(
 			new DisplayElement(null,false ,true ,new Rectangle(300,800,200,100),1)
@@ -394,23 +397,60 @@ public Panel() {
 				g.setColor(Color.WHITE);
 				g.setFont(new Font("Arial",Font.BOLD,x(50)));
 				g.drawString("Pass", x(this.x+25), y(this.y+75));
-
-				if(Manager.currPlayer.pass) this.click(null);
-				if(firstRound) clickable = true;
+				
+				//this.clickable = true;
+				if(Manager.currPlayer.pass) {autoPass = true; this.click(null);}
+				
 				}
 
 				public void click(MouseEvent e)
 				{
-					Manager.bid(0);	
+					Manager.bid(0);//make sure that numpasses does not get handled in Manager
+					if(!autoPass) Manager.numPasses++;	autoPass = false;
 					Manager.currPlayer.pass = true;
-					if(Manager.numPasses > 3)
+					
+					if(Manager.numPasses > 2 )
 					{
 						Manager.highestBidder.getMyPlants().add(Manager.currentAuctionPlant);
+						/*add logic to the replace plant screen */
+						Manager.highestBidder.canChooseAuctionPlant = false;
+						
 						Manager.updateMarket();
 						Manager.currentAuctionPlant = null;
+
+						int i=0;
+						for(Player p : Manager.playerOrder)
+						{
+							p.pass = false;
+							if(!p.canChooseAuctionPlant) i++;
+						}
+						Manager.highestBidder.pass = true;
+						Manager.cost = 0;
+						Manager.highestBidder = null;
+						Manager.numPasses = i;
+						Manager.currPlayer = secondaryPlayerIterator.next();
+						playerIterator = Manager.playerOrder.listIterator(Manager.playerOrder.indexOf(Manager.currPlayer));
+					
+						
+						if(firstRound&&i==Manager.playerOrder.size())
+						{ 
+							setScreen(null/*placeholder for main screen */);
+							for(Player p : Manager.playerOrder) p.canChooseAuctionPlant = true; 
+							
+
+						} else if(!firstRound&&Manager.numPasses==4)
+						{
+							setScreen(null/*placeholder for main screen */);
+							for(Player p : Manager.playerOrder) p.canChooseAuctionPlant = true;
+						}
+						
+					return;
 					} //player with the highest bid earns the next power plant, and if no player can choose plant for auction, move on
+					if(playerIterator.hasNext())
 					Manager.currPlayer = playerIterator.next();
-					repaint();
+					else
+					playerIterator = Manager.playerOrder.iterator();
+				
 				}
 			}
 	);
@@ -426,13 +466,14 @@ public Panel() {
 				@Override  
 				public void draw(Graphics2D g) 
 				{
-					g.setColor(Color.BLACK);
+				g.setColor(Color.BLACK);
 				g.fillRect(x(this.x),y(this.y),x(this.width),y(this.height));
 				g.setColor(Color.WHITE);
 				g.setFont(new Font("Arial",Font.BOLD,x(50)));
 				g.drawString("Bid", x(this.x+25), y(this.y+75));
 
 				for(DisplayElement d : Manager.powerPlantMarket) if(d.displayable) d.draw(g);
+				this.clickable = Manager.currentAuctionPlant!=null;
 
 				}
 
@@ -440,8 +481,12 @@ public Panel() {
 				{
 					while(!bidInpuString.matches("\\d+"))
 					bidInpuString = JOptionPane.showInputDialog("How much are you bidding?");
-					Manager.bid(Integer.decode(bidInpuString));	
+					Manager.bid(Integer.decode(bidInpuString));	//have a boolean check if the bid went through
+					bidInpuString = "weed eater";
+					if(playerIterator.hasNext())
 					Manager.currPlayer = playerIterator.next();
+					else
+					playerIterator = Manager.playerOrder.iterator();
 
 				}
 			}
@@ -457,6 +502,7 @@ public Panel() {
 	
 	
 }
+
 
 
 

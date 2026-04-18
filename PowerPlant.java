@@ -37,17 +37,23 @@ public void setPoweredStatus(boolean in) {isPowered = in;}
 
 public void draw(Graphics2D g)
 {
-    
+    g.setColor(Color.red);
+    if(this==Manager.currentAuctionPlant)
+    {
+        g.fillRect(Frame.x(this.x-10),Frame.y(this.y-10),Frame.x(this.width+10),Frame.y(this.height+10));
+    }
+    g.drawImage(this.i,Frame.x(this.x),Frame.y(this.y),Frame.x(this.width),Frame.y(this.height), null);
 }
 
 public void click(MouseEvent e)
 {
-    if(Manager.phase==1)
+    if(Manager.phase==1&&Manager.currentAuctionPlant==null)
     {
-        if(Manager.currentAuctionPlant==null) Manager.currentAuctionPlant=this;
-        else return;
+            Manager.currentAuctionPlant=this;
+            Manager.highestBidder = Manager.currPlayer;
+        
         for(PowerPlant p: Manager.powerPlantMarket)  p.setClickable(false);
-         Manager.cost=this.getNum();
+        Manager.cost=this.getNum();
     }
     //if(we are bidding)
         //check if a power plant has already been selected and flag the plant as being up for auction

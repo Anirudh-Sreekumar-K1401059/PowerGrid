@@ -391,13 +391,45 @@ try {
 			3.2: make sure market is being updated correctly based on the step
 			3.3: Make the power plant displayable and clickable, and make sure the player can click on the power plant to buy it */
 
-    public static void bid(int offer) {
-        //check if offer is higher than current bid 
-        //if offer is higher, set current bid to this
-        //if offer is lower, count it as a pass and numPasses++
-        //call currPlayer.updateElektros(-currentBid) to subtract the bid amount from the player's elektros
-
+  public static void bid(int offer) {
+        // Check if player has enough elektros for the bid
+        if (currPlayer.getElektros() < offer) {
+            System.out.println("false");
+            return;
+        }
+       
+        // If offer is higher than current bid, update the bid and bidder
+        if (offer > cost) {
+            cost = offer;
+            highestBidder = currPlayer;
+        } else {
+            // If offer is lower, player passes
+            currPlayer.pass = true;
+            numPasses++;
+        }
+       
+        // Check if auction is over (all but one player have passed)
+        if (numPasses == playerOrder.size() - 1) {
+            // Award plant to highest bidder
+            highestBidder.addPlant(currentAuctionPlant);
+            highestBidder.updateElektros(-cost);
+           
+            // Update market
+            updateMarket();
+           
+            // Reset for next auction
+            numPasses = 0;
+            cost = 0;
+            currentAuctionPlant = null;
+            highestBidder = null;
+           
+            // Reset player pass flags
+            for (Player p : playerOrder) {
+                p.pass = false;
+            }
+        }
     }
+
 
     
 

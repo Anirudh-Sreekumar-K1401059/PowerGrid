@@ -14,7 +14,7 @@ LinkedList<DisplayElement> listOfRegions = new LinkedList<DisplayElement>();
 LinkedList<String> activeRegions = new LinkedList<String>();
 String bidInpuString = "weed eater";
 boolean autoPass = false;
-
+int j=1;
 
 
 DisplayElement tealRegion;
@@ -23,6 +23,12 @@ DisplayElement brownRegion;
 DisplayElement yellowRegion;
 DisplayElement blueRegion;
 DisplayElement purpleRegion;
+
+TreeSet<DisplayElement> startScreen = new TreeSet<DisplayElement>(); //The screen with the start button
+TreeSet<DisplayElement> regionSelectScreen = new TreeSet<DisplayElement>(); //Get to this screen by clicking the start button
+TreeSet<DisplayElement> biddingScreen = new TreeSet<DisplayElement>(); //Get to this screen by having 4 passes in a row
+TreeSet<DisplayElement> replacePlantScreen = new TreeSet<DisplayElement>();
+
 
 public Panel() {
 	
@@ -64,10 +70,7 @@ public Panel() {
 	setScreen(ArrayList<DisplayElement> desired screen); 
 	 * */
 
-	TreeSet<DisplayElement> startScreen = new TreeSet<DisplayElement>(); //The screen with the start button
-	TreeSet<DisplayElement> regionSelectScreen = new TreeSet<DisplayElement>(); //Get to this screen by clicking the start button
-	TreeSet<DisplayElement> biddingScreen = new TreeSet<DisplayElement>(); //Get to this screen by having 4 passes in a row
-		TreeSet<DisplayElement> replacePlantScreen = new TreeSet<DisplayElement>();
+	
 
 	startScreen.add
 	(
@@ -384,9 +387,8 @@ public Panel() {
 					g.drawImage(this.i,x(this.x),y(this.y),x(this.width),y(this.height),null);
 				}
 			*/
-	biddingScreen.add 
-	(
-			new DisplayElement(null,true ,true ,new Rectangle(300,800,200,100),1)
+	
+	DisplayElement passButton = new DisplayElement(null,true ,true ,new Rectangle(300,800,200,100),1)
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// Pass button
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////													 
@@ -432,20 +434,18 @@ public Panel() {
 						Manager.cost = 0;
 						Manager.highestBidder = null;
 						Manager.numPasses = i;
+						Manager.highestBidder.updateElektros(-Manager.cost);
 						Manager.currPlayer = secondaryPlayerIterator.next();
 						playerIterator = Manager.playerOrder.listIterator(Manager.playerOrder.indexOf(Manager.currPlayer));
 					
 						
-						if(firstRound&&i==Manager.playerOrder.size())
+						if((firstRound&&i==Manager.playerOrder.size())||(Manager.numPasses==4))
 						{ 
 							setScreen(null/*placeholder for main screen */);
-							for(Player p : Manager.playerOrder) p.canChooseAuctionPlant = true; 
-							
-
-						} else if(Manager.numPasses==4)
-						{
-							setScreen(null/*placeholder for main screen */);
 							for(Player p : Manager.playerOrder) p.canChooseAuctionPlant = true;
+							Manager.numPasses = 0; 
+							if(firstRound) Manager.determineOrder();
+
 						}
 						
 					return;
@@ -456,8 +456,8 @@ public Panel() {
 					playerIterator = Manager.playerOrder.iterator();
 				
 				}
-			}
-	);
+			};
+	biddingScreen.add(passButton);
 
 	
 	biddingScreen.add 
@@ -483,10 +483,14 @@ public Panel() {
 
 				public void click(MouseEvent e)
 				{
-					while(!bidInpuString.matches("\\d+"))
+					boolean validBid = true;
+					while(!bidInpuString.matches("\\d+")&&validBid)
+					{
 					bidInpuString = JOptionPane.showInputDialog("How much are you bidding?");
-					Manager.bid(Integer.decode(bidInpuString));	//have a boolean check if the bid went through, and if true, pass
+					validBid = Manager.bid(Integer.decode(bidInpuString));	
+					}
 					bidInpuString = "weed eater";
+					if(Manager.highestBidder!=Manager.currPlayer) return;
 					if(playerIterator.hasNext())
 					Manager.currPlayer = playerIterator.next();
 					else
@@ -496,27 +500,28 @@ public Panel() {
 			}
 	);
 
-	int j=1;
-	for(PowerPlant p : Manager.currPlayer.getMyPlants())
+	
+		
+	while(j<4)
 		replacePlantScreen.add 
 	(
-			new DisplayElement(p.i,true ,true,new Rectangle(j*250,450,100,100), j++)
+			new DisplayElement(null,true ,true,new Rectangle(j*250,450,100,100), j++)
 																			 
 			{
 				@Override  
 				public void draw(Graphics2D g) 
 				{
+					i = Manager.currPlayer.getMyPlants().get(layer).i;
 					g.drawImage(i,x(this.x),y(this.y),null);
 				}
 				
 				public void click(MouseEvent e)
 				{
-					Manager.highestBidder.addPlant(Manager.currentAuctionPlant,p);//if this does not work replace with Manager.highestBidder.getMyPlants().get(this.layer)
+					Manager.highestBidder.getMyPlants().set(layer,Manager.currentAuctionPlant);
 					setScreen(biddingScreen);
 				}
 			}
 	);
-
 
 	replacePlantScreen.add 
 	(
@@ -544,8 +549,10 @@ public Panel() {
 	
 }
 
+public void refactorReplacementScreen()
+{
 
-
+}
 
 
 

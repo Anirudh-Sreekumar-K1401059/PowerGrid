@@ -1,3 +1,4 @@
+import java.awt.Graphics2D;
 import java.util.*;
 
 public class Player implements Comparable<Player>{
@@ -11,7 +12,7 @@ public class Player implements Comparable<Player>{
    private boolean isFinished; 
    public boolean canChooseAuctionPlant;
    private String color;
-   private TreeSet<DisplayElement> playerScreen;
+   public TreeSet<DisplayElement> playerScreen;
    
     
    public Player(String c) {
@@ -97,5 +98,10 @@ public class Player implements Comparable<Player>{
    public String getColor() {
       return color;
    }
+
+public void draw(Graphics2D g)
+{
+   
+}
 
 }

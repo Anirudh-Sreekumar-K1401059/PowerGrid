@@ -12,6 +12,7 @@ public class Manager{
     static HashMap<Type, TreeMap<Integer,ArrayList<Resource>>> market;
     static HashMap<Type, Integer> resourceNotInMarket;
    static HashMap<Integer, Integer> income;
+   static BufferedImage step3Card;
 
     static HashMap<Integer, HashMap<Type, Integer>> resupply;
         //first integer is step
@@ -250,6 +251,7 @@ public class Manager{
         BufferedImage p44 = ImageIO.read(Panel.class.getResource("/plantCards/plant44.png"));
         BufferedImage p46 = ImageIO.read(Panel.class.getResource("/plantCards/plant46.png"));
         BufferedImage p50 = ImageIO.read(Panel.class.getResource("/plantCards/plant50.png"));
+        BufferedImage stepCard = ImageIO.read(Panel.class.getResource("/plantCards/step3Card.png"));
         }
         catch(Exception e) {
             System.out.println("Error");
@@ -258,6 +260,7 @@ public class Manager{
 try {
     File file = new File("Powerplants.txt"); 
     Scanner myReader = new Scanner(file);
+    
     
     while (myReader.hasNextLine()) {
         String line = myReader.nextLine().trim(); // the trim is there because it will the handle the space before and after the numbers
@@ -283,8 +286,11 @@ try {
             resourceAmount = Integer.parseInt(quantity[0]); //
             resourceType = Type.valueOf(quantity[1].toUpperCase());
         }
-
-        powerPlantDeck.add(new PowerPlant(number, citiesPowered,  resourceType, resourceAmount));
+        HashMap<Type, Integer> ResourceMap = new HashMap<>();
+         ResourceMap.put(resourceType, resourceAmount);
+        
+        PowerPlant step3Card = new PowerPlant(3, 0, null, 0, stepCard, true, true, null, 1);
+        powerPlantDeck.add(new PowerPlant(number, citiesPowered,  ResourceMap, resourceAmount, null,true, true, null, 1));
     }
     myReader.close();
 } catch (FileNotFoundException e) {
@@ -451,7 +457,82 @@ try {
     }
 
     public static void updateMarket() {
-        	
+        //this method is called after a power plant is bought, and it updates the market based on the step and the power plant that was bought
+        //if step 1, add the power plant to the market and make sure the market is in order
+        //if step 2, add the power plant to the market, make sure the market is in order, and remove the lowest power plant from the market
+        //if step 3, add the power plant to the market, make sure the market is in order, remove the lowest power plant from the market, and then remove the step 3 card from the game
+        if(step==1) {
+            powerPlantMarket.add(currentAuctionPlant);
+            powerPlantDeck.remove(currentAuctionPlant);
+            //make sure market is in order
+            TreeSet<PowerPlant> sortedMarket = new TreeSet<>(powerPlantMarket);
+            powerPlantMarket = sortedMarket;
+        } else if(step==2) {
+            powerPlantMarket.add(currentAuctionPlant);
+            powerPlantDeck.remove(currentAuctionPlant);
+            //make sure market is in order
+            TreeSet<PowerPlant> sortedMarket = new TreeSet<>(powerPlantMarket);
+            powerPlantMarket = sortedMarket;
+            //remove lowest power plant from market
+            PowerPlant lowest = powerPlantMarket.first();
+            powerPlantMarket.remove(lowest);
+        } else if(step==3) {
+            powerPlantMarket.add(currentAuctionPlant);
+            powerPlantDeck.remove(currentAuctionPlant);
+            //make sure market is in order
+            TreeSet<PowerPlant> sortedMarket = new TreeSet<>(powerPlantMarket);
+            powerPlantMarket = sortedMarket;
+             //remove lowest power plant from market
+             PowerPlant lowest = powerPlantMarket.first();
+             powerPlantMarket.remove(lowest);
+             //remove step 3 card from game
+             for(PowerPlant p:powerPlantDeck) {
+                 if(p.getNum()==3) {
+                     powerPlantDeck.remove(p);
+                     break;
+                 }
+             }
+        }
+    }
+
+    public static void step3Case() {
+        // if happens during phase 2 : Move step 3 card to last card in future market
+        //shuffle powerplant stack
+        //after pahse 2, remove lowest number powerplant and then remove step 3 card
+        if(phase==2) {
+                // Move step 3 card to last card in future market
+                PowerPlant step3Card = null;
+                for (PowerPlant plant : powerPlantDeck) {
+                    if (Manager.step == 3) {
+                        step3Card = plant;
+                        break;
+                    }
+                }
+                if (step3Card != null) {
+                    powerPlantDeck.remove(step3Card);
+                    powerPlantDeck.add(step3Card); // Move to end of deck
+                }
+        } else if(phase==5) {
+            powerPlantMarket.remove(step3Card);
+            powerPlantMarket.pollFirst();
+            Collections.shuffle(powerPlantDeck);
+            
+            //If happens in phase 5: remove step 3 card and lowest number in powerplant
+     //Shuffle powerplant stack
+     //resuply for step 3
+     
+        }
+    
+        
+     
+
+                   
+
+
+     //no more future market
+     // change building cost to 20 elektros if 3rd house
+    
+    
     }
 
     public static int calculateCost(Type t) { return 0;}

@@ -27,8 +27,8 @@ DisplayElement purpleRegion;
 TreeSet<DisplayElement> startScreen = new TreeSet<DisplayElement>(); //The screen with the start button
 TreeSet<DisplayElement> regionSelectScreen = new TreeSet<DisplayElement>(); //Get to this screen by clicking the start button
 TreeSet<DisplayElement> biddingScreen = new TreeSet<DisplayElement>(); //Get to this screen by having 4 passes in a row
-TreeSet<DisplayElement> replacePlantScreen = new TreeSet<DisplayElement>();
-
+TreeSet<DisplayElement> replacePlantScreen = new TreeSet<DisplayElement>(); //Screen that replaces the Player's powerplants
+TreeSet<DisplayElement> playerScreens = new TreeSet<DisplayElement>(); //Make one of these for each player, and add the appropriate information to each screen in the constructor. Get to these screens by clicking on the player's name in the bidding screen
 
 public Panel() {
 	
@@ -442,10 +442,11 @@ public Panel() {
 						
 						if((firstRound&&i==Manager.playerOrder.size())||(Manager.numPasses==4))
 						{ 
-							setScreen(null/*placeholder for main screen */);
+							if(firstRound) Manager.determineOrder();
+							setScreen(Manager.playerOrder.get(0).playerScreen);
 							for(Player p : Manager.playerOrder) p.canChooseAuctionPlant = true;
 							Manager.numPasses = 0; 
-							if(firstRound) Manager.determineOrder();
+							
 
 						}
 						
@@ -539,6 +540,8 @@ public Panel() {
 	);
 	
 
+	
+
 	/*
 	To do list: 
 		
@@ -550,10 +553,7 @@ public Panel() {
 	
 }
 
-public void refactorReplacementScreen()
-{
 
-}
 
 
 

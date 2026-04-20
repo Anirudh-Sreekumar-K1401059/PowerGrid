@@ -11,6 +11,7 @@ public PowerPlant(int num, int numPossibleCities, HashMap<Type, Integer> resNeed
         this.numPossibleCities = numPossibleCities;
         this.resNeeded = resNeeded;
         this.capacity = capacity;
+        this.image = 
         //TODO Auto-generated constructor stub
     }
 

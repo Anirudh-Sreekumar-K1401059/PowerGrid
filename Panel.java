@@ -435,6 +435,7 @@ public Panel() {
 						Manager.highestBidder = null;
 						Manager.numPasses = i;
 						Manager.highestBidder.updateElektros(-Manager.cost);
+						Manager.highestBidder = null;
 						Manager.currPlayer = secondaryPlayerIterator.next();
 						playerIterator = Manager.playerOrder.listIterator(Manager.playerOrder.indexOf(Manager.currPlayer));
 					

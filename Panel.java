@@ -28,7 +28,6 @@ TreeSet<DisplayElement> startScreen = new TreeSet<DisplayElement>(); //The scree
 TreeSet<DisplayElement> regionSelectScreen = new TreeSet<DisplayElement>(); //Get to this screen by clicking the start button
 TreeSet<DisplayElement> biddingScreen = new TreeSet<DisplayElement>(); //Get to this screen by having 4 passes in a row
 TreeSet<DisplayElement> replacePlantScreen = new TreeSet<DisplayElement>(); //Screen that replaces the Player's powerplants
-TreeSet<DisplayElement> playerScreens = new TreeSet<DisplayElement>(); //Make one of these for each player, and add the appropriate information to each screen in the constructor. Get to these screens by clicking on the player's name in the bidding screen
 
 public Panel() {
 	
@@ -101,6 +100,7 @@ public Panel() {
 			public void click(MouseEvent e) //code for the start button
 			{
 				//Add setup code here
+				Manager.setGame();
 				setScreen(biddingScreen); 
 				playerIterator = Manager.playerOrder.iterator();
 				secondaryPlayerIterator = Manager.playerOrder.iterator();
@@ -124,10 +124,6 @@ public Panel() {
 				g.drawImage(this.i,x(this.x),y(this.y),x(this.width),y(this.height),null);	
 			}
 
-			public void click(MouseEvent e) 
-			{
- 
-			}
 		}
 	);
 	setScreen(startScreen);
@@ -511,6 +507,21 @@ public Panel() {
 			}
 	);
 
+	DisplayElement sideMap = new DisplayElement(map,false,true ,new Rectangle(300,0,700,1000), 1)														 
+			{
+				@Override  
+				public void draw(Graphics2D g) 
+				{
+					g.rotate(Math.toRadians(90), x(this.x + this.width/2), y(this.y + this.height/2));
+					g.drawImage(this.i,x(this.x),y(this.y),x(this.width),y(this.height),null);
+				}
+				
+				public void click(MouseEvent e)
+				{
+					
+				}
+			};
+
 	
 		
 	while(j<4)
@@ -543,11 +554,12 @@ public Panel() {
 				@Override  
 				public void draw(Graphics2D g) 
 				{
-					g.drawString("Phase: "+Manager.phase+"\nStep: "+Manager.step+"\nElectro: "+Manager.currPlayer.getElektros()+"\n\tPowerplants:",x(this.x),y(this.y));
+					g.drawString("Phase: "+Manager.phase+"\nStep: "+Manager.step+"\nElectro: "+Manager.currPlayer.getElektros()+"\n\tPowerplants:/n/n/n/n/n/nResources:",x(this.x),y(this.y));
 				}
 				
 			}
 	);
+
 	}
 	replacePlantScreen.add 
 	(

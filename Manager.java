@@ -12,19 +12,19 @@ public class Manager{
     static ArrayList<PowerPlant> powerPlantDeck;
     static HashMap<Type, TreeMap<Integer,ArrayList<Resource>>> market;
     static HashMap<Type, Integer> resourceNotInMarket;
-   static HashMap<Integer, Integer> income;
-   static BufferedImage stepCard;
-
+    static HashMap<Integer, Integer> income;
+    static BufferedImage stepCard;
+    static BufferedImage p11, p12, p13, p14, p15, p16, p17, p18, p19, p20, p21, p22, p23, p24, p25, p26, p27, p28, p29, p30, p31, p32, p33, p34, p35, p36, p37, p38, p39, p40, p44, p46, p50;
     static HashMap<Integer, HashMap<Type, Integer>> resupply;
         //first integer is step
         //hashmap is <the resource, the amount needed to be put back into the market>
 
-    
+    static PowerPlant step3Card;
     static ArrayList<Player> playerOrder;
     static TreeSet<PowerPlant> powerPlantMarket;
     static PowerPlant currentAuctionPlant;
     static ArrayList<City> cities;
-    static ArrayList<String> selectedRegions;
+    static LinkedList<String> selectedRegions;
     static int step;
     static int phase = 1;
     static int turn;
@@ -35,10 +35,10 @@ public class Manager{
     static boolean isAuctionOver;
     static boolean isMaterialBuyingOver;
     static boolean isBuildingOver;
-   */ static boolean isBuracreacyOver;
-    static Player currPlayer, highestBidder;
+    static boolean isBuracreacyOver;
+    */static Player currPlayer, highestBidder;
 
-   public void createResupply() {   //4 player 
+   public static void createResupply() {   //4 player 
 
     resupply = new HashMap<>();
 
@@ -65,7 +65,13 @@ public class Manager{
 }
     
     public static void setGame(){
-    	//
+    	setPlayers();
+        setCities(selectedRegions);
+        setResources();
+        setPowerPlants();
+        createResupply();  
+        
+             
     }
 
     public static void setPlayers() {
@@ -219,39 +225,39 @@ public class Manager{
     
     public static void setPowerPlants() {
         try{
-        BufferedImage p11 = ImageIO.read(Panel.class.getResource("/plantCards/plant11.png"));
-        BufferedImage p12 = ImageIO.read(Panel.class.getResource("/plantCards/plant12.png"));
-        BufferedImage p13 = ImageIO.read(Panel.class.getResource("/plantCards/plant13.png"));
-        BufferedImage p14 = ImageIO.read(Panel.class.getResource("/plantCards/plant14.png"));
-        BufferedImage p15 = ImageIO.read(Panel.class.getResource("/plantCards/plant15.png"));
-        BufferedImage p16 = ImageIO.read(Panel.class.getResource("/plantCards/plant16.png"));
-        BufferedImage p17 = ImageIO.read(Panel.class.getResource("/plantCards/plant17.png"));
-        BufferedImage p18 = ImageIO.read(Panel.class.getResource("/plantCards/plant18.png"));
-        BufferedImage p19 = ImageIO.read(Panel.class.getResource("/plantCards/plant19.png"));
-        BufferedImage p20 = ImageIO.read(Panel.class.getResource("/plantCards/plant20.png"));
-        BufferedImage p21 = ImageIO.read(Panel.class.getResource("/plantCards/plant21.png"));
-        BufferedImage p22 = ImageIO.read(Panel.class.getResource("/plantCards/plant22.png"));
-        BufferedImage p23 = ImageIO.read(Panel.class.getResource("/plantCards/plant23.png"));
-        BufferedImage p24 = ImageIO.read(Panel.class.getResource("/plantCards/plant24.png"));
-        BufferedImage p25 = ImageIO.read(Panel.class.getResource("/plantCards/plant25.png"));
-        BufferedImage p26 = ImageIO.read(Panel.class.getResource("/plantCards/plant26.png"));
-        BufferedImage p27 = ImageIO.read(Panel.class.getResource("/plantCards/plant27.png"));
-        BufferedImage p28 = ImageIO.read(Panel.class.getResource("/plantCards/plant28.png"));
-        BufferedImage p29 = ImageIO.read(Panel.class.getResource("/plantCards/plant29.png"));
-        BufferedImage p30 = ImageIO.read(Panel.class.getResource("/plantCards/plant30.png"));
-        BufferedImage p31 = ImageIO.read(Panel.class.getResource("/plantCards/plant31.png"));
-        BufferedImage p32 = ImageIO.read(Panel.class.getResource("/plantCards/plant32.png"));
-        BufferedImage p33 = ImageIO.read(Panel.class.getResource("/plantCards/plant33.png"));
-        BufferedImage p34 = ImageIO.read(Panel.class.getResource("/plantCards/plant34.png"));
-        BufferedImage p35 = ImageIO.read(Panel.class.getResource("/plantCards/plant35.png"));
-        BufferedImage p36 = ImageIO.read(Panel.class.getResource("/plantCards/plant36.png"));
-        BufferedImage p37 = ImageIO.read(Panel.class.getResource("/plantCards/plant37.png"));
-        BufferedImage p38 = ImageIO.read(Panel.class.getResource("/plantCards/plant38.png"));
-        BufferedImage p39 = ImageIO.read(Panel.class.getResource("/plantCards/plant39.png"));
-        BufferedImage p40 = ImageIO.read(Panel.class.getResource("/plantCards/plant40.png"));
-        BufferedImage p44 = ImageIO.read(Panel.class.getResource("/plantCards/plant44.png"));
-        BufferedImage p46 = ImageIO.read(Panel.class.getResource("/plantCards/plant46.png"));
-        BufferedImage p50 = ImageIO.read(Panel.class.getResource("/plantCards/plant50.png"));
+         p11 = ImageIO.read(Panel.class.getResource("/plantCards/plant11.png"));
+         p12 = ImageIO.read(Panel.class.getResource("/plantCards/plant12.png"));
+         p13 = ImageIO.read(Panel.class.getResource("/plantCards/plant13.png"));
+         p14 = ImageIO.read(Panel.class.getResource("/plantCards/plant14.png"));
+         p15 = ImageIO.read(Panel.class.getResource("/plantCards/plant15.png"));
+         p16 = ImageIO.read(Panel.class.getResource("/plantCards/plant16.png"));
+         p17 = ImageIO.read(Panel.class.getResource("/plantCards/plant17.png"));
+         p18 = ImageIO.read(Panel.class.getResource("/plantCards/plant18.png"));
+         p19 = ImageIO.read(Panel.class.getResource("/plantCards/plant19.png"));
+         p20 = ImageIO.read(Panel.class.getResource("/plantCards/plant20.png"));
+         p21 = ImageIO.read(Panel.class.getResource("/plantCards/plant21.png"));
+         p22 = ImageIO.read(Panel.class.getResource("/plantCards/plant22.png"));
+         p23 = ImageIO.read(Panel.class.getResource("/plantCards/plant23.png"));
+         p24 = ImageIO.read(Panel.class.getResource("/plantCards/plant24.png"));
+         p25 = ImageIO.read(Panel.class.getResource("/plantCards/plant25.png"));
+         p26 = ImageIO.read(Panel.class.getResource("/plantCards/plant26.png"));
+         p27 = ImageIO.read(Panel.class.getResource("/plantCards/plant27.png"));
+         p28 = ImageIO.read(Panel.class.getResource("/plantCards/plant28.png"));
+         p29 = ImageIO.read(Panel.class.getResource("/plantCards/plant29.png"));
+         p30 = ImageIO.read(Panel.class.getResource("/plantCards/plant30.png"));
+         p31 = ImageIO.read(Panel.class.getResource("/plantCards/plant31.png"));
+         p32 = ImageIO.read(Panel.class.getResource("/plantCards/plant32.png"));
+         p33 = ImageIO.read(Panel.class.getResource("/plantCards/plant33.png"));
+         p34 = ImageIO.read(Panel.class.getResource("/plantCards/plant34.png"));
+         p35 = ImageIO.read(Panel.class.getResource("/plantCards/plant35.png"));
+         p36 = ImageIO.read(Panel.class.getResource("/plantCards/plant36.png"));
+         p37 = ImageIO.read(Panel.class.getResource("/plantCards/plant37.png"));
+         p38 = ImageIO.read(Panel.class.getResource("/plantCards/plant38.png"));
+         p39 = ImageIO.read(Panel.class.getResource("/plantCards/plant39.png"));
+         p40 = ImageIO.read(Panel.class.getResource("/plantCards/plant40.png"));
+         p44 = ImageIO.read(Panel.class.getResource("/plantCards/plant44.png"));
+         p46 = ImageIO.read(Panel.class.getResource("/plantCards/plant46.png"));
+         p50 = ImageIO.read(Panel.class.getResource("/plantCards/plant50.png"));
         stepCard = ImageIO.read(Panel.class.getResource("/plantCards/step3Card.png"));
         }
         catch(Exception e) {
@@ -290,7 +296,7 @@ try {
         HashMap<Type, Integer> ResourceMap = new HashMap<>();
          ResourceMap.put(resourceType, resourceAmount);
         
-        PowerPlant step3Card = new PowerPlant(3, 0, new HashMap<Type,Integer>(), 0, stepCard, true, true, new Rectangle(), 1);
+        step3Card = new PowerPlant(3, 0, new HashMap<Type,Integer>(), 0, stepCard, true, true, new Rectangle(), 1);
         powerPlantDeck.add(new PowerPlant(number, citiesPowered,  ResourceMap, resourceAmount, null,true, true, null, 1));
     }
     myReader.close();
@@ -309,7 +315,7 @@ try {
     }
 
     public static String purchaseCity(City wanted) {
-        //if player has bought at least one city:
+       //if player has bought at least one city:
             if(currPlayer.myCities.size()>0) {
                 for(City c: currPlayer.myCities) {
                     if(c.connections.containsKey(wanted)) {
@@ -338,7 +344,7 @@ try {
     }
 
     public static void changeGameState () {
-        /*static int step;
+                /*static int step;
     static int phase = 1;
     static int turn;
     static boolean isStepThree;
@@ -347,6 +353,7 @@ try {
     
     static Player currPlayer;
     */
+
     }
 
    public static void purchaseRes(Type t, int re) { // re is the amount of that certain resource they bought 
@@ -494,41 +501,58 @@ try {
                  }
              }
         }
+
+        if(step<3)
+        {
+            Iterator<PowerPlant> martketIter = powerPlantMarket.iterator();
+            PowerPlant p = null;
+            for(int i=0;i<powerPlantMarket.size()/2;i++)
+            {
+                if(martketIter.hasNext())
+                    p = martketIter.next();
+                p.setLocation(Frame.panel.x((i+1)*110), Frame.panel.y(250));
+                p.clickable = true;
+            } 
+            for(int i=0;i<powerPlantMarket.size()/2;i++)
+            {
+                if(martketIter.hasNext())
+                    p = martketIter.next();
+                p.setLocation(Frame.panel.x((i+1)*110), Frame.panel.y(360));
+                p.clickable = false;
+            } 
+        }
+
     }
 
     public static void step3Case() {
         // if happens during phase 2 : Move step 3 card to last card in future market
         //shuffle powerplant stack
         //after pahse 2, remove lowest number powerplant and then remove step 3 card
+        step = 3;
         if(phase==2) {
                 // Move step 3 card to last card in future market
-                PowerPlant step3Card = null;
                 for (PowerPlant plant : powerPlantDeck) {
                     if (Manager.step == 3) {
-                        step3Card = plant;
+                        step3Card= plant;
                         break;
                     }
                 }
-                if (step3Card != null) {
-                    powerPlantDeck.remove(step3Card);
+                if (stepCard != null) {
+                    powerPlantDeck.remove(stepCard);
                     powerPlantDeck.add(step3Card); // Move to end of deck
                 }
         } else if(phase==5) {
             powerPlantMarket.remove(stepCard);
             powerPlantMarket.pollFirst();
             Collections.shuffle(powerPlantDeck);
-            
+            refillRes();
             //If happens in phase 5: remove step 3 card and lowest number in powerplant
      //Shuffle powerplant stack
-     //resuply for step 3
+    //resuply for step 3
+
      
         }
-    
-        
-     
-
-                   
-
+         
 
      //no more future market
      // change building cost to 20 elektros if 3rd house
@@ -552,7 +576,7 @@ try {
         }
     }
 
-   public void phaseOver() {
+   public  void phaseOver() {
         if (phase == 1) {
             // Check if all players have passed in the auction phase
             if (turn==4) {
@@ -592,7 +616,7 @@ try {
     }
 
     public void gameOver() {
-        if (phase >= 5) {
+        if (phase == 4) {
             Player winner = null;
             int maxCities = -1;
             for (Player player : playerOrder) {

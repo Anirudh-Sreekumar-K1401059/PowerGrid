@@ -518,7 +518,7 @@ try {
                 if(martketIter.hasNext())
                     p = martketIter.next();
                 p.setLocation(Frame.panel.x((i+1)*110), Frame.panel.y(360));
-                p.clickable = false;
+                p.clickable = phase==3;
             } 
         }
 

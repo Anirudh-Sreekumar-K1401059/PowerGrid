@@ -514,6 +514,7 @@ public Panel() {
 				{
 					g.rotate(Math.toRadians(90), x(this.x + this.width/2), y(this.y + this.height/2));
 					g.drawImage(this.i,x(this.x),y(this.y),x(this.width),y(this.height),null);
+					g.rotate(Math.toRadians(-90), x(this.x + this.width/2), y(this.y + this.height/2));
 				}
 				
 				public void click(MouseEvent e)

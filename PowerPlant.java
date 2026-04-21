@@ -11,7 +11,7 @@ public PowerPlant(int num, int numPossibleCities, HashMap<Type, Integer> resNeed
         this.numPossibleCities = numPossibleCities;
         this.resNeeded = resNeeded;
         this.capacity = capacity;
-        this.image = 
+        
         //TODO Auto-generated constructor stub
     }
 
@@ -38,12 +38,15 @@ public void setPoweredStatus(boolean in) {isPowered = in;}
 
 public void draw(Graphics2D g)
 {
+    g.drawImage(this.i,Frame.x(this.x),Frame.y(this.y),Frame.x(this.width),Frame.y(this.height), null);
+if(Manager.phase==1)
+{
     g.setColor(Color.red);
     if(this==Manager.currentAuctionPlant)
     {
         g.fillRect(Frame.x(this.x-10),Frame.y(this.y-10),Frame.x(this.width+10),Frame.y(this.height+10));
     }
-    g.drawImage(this.i,Frame.x(this.x),Frame.y(this.y),Frame.x(this.width),Frame.y(this.height), null);
+} 
 }
 
 public void click(MouseEvent e)
@@ -56,6 +59,9 @@ public void click(MouseEvent e)
         for(PowerPlant p: Manager.powerPlantMarket)  p.setClickable(false);
         Manager.cost=this.getNum();
     }
+
+    if(Manager.phase==4) isPowered = !isPowered;
+    
     //if(we are bidding)
         //check if a power plant has already been selected and flag the plant as being up for auction
         //make all power plants unclickable

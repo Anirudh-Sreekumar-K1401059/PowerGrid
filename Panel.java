@@ -70,7 +70,16 @@ public Panel() {
 	setScreen(ArrayList<DisplayElement> desired screen); 
 	 * */
 
-	
+	DisplayElement currentPlayer = new DisplayElement(null,false ,true,new Rectangle(10,0,200,50), 1)
+																			 
+			{
+				@Override  
+				public void draw(Graphics2D g) 
+				{
+					g.drawString("Current Player: "+Manager.currPlayer.getColor(),x(this.x),y(this.y));
+				}
+				
+			};
 
 	startScreen.add
 	(
@@ -505,6 +514,7 @@ public Panel() {
 	
 		
 	while(j<4)
+	{
 		replacePlantScreen.add 
 	(
 			new DisplayElement(null,true ,true,new Rectangle(j*250,450,100,100), j++)
@@ -525,6 +535,20 @@ public Panel() {
 			}
 	);
 
+		Manager.playerOrder.get(j).playerScreen.add 
+	(
+			new DisplayElement(null,true ,true,new Rectangle(60,0,0,0), j++)
+																			 
+			{
+				@Override  
+				public void draw(Graphics2D g) 
+				{
+					g.drawString("Phase: "+Manager.phase+"\nStep: "+Manager.step+"\nElectro: "+Manager.currPlayer.getElektros()+"\n\tPowerplants:",x(this.x),y(this.y));
+				}
+				
+			}
+	);
+	}
 	replacePlantScreen.add 
 	(
 			new DisplayElement(null,false ,true,new Rectangle(450,20,0,0), 1)

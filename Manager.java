@@ -1,3 +1,4 @@
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.*;
 import javax.imageio.ImageIO;
@@ -12,7 +13,7 @@ public class Manager{
     static HashMap<Type, TreeMap<Integer,ArrayList<Resource>>> market;
     static HashMap<Type, Integer> resourceNotInMarket;
    static HashMap<Integer, Integer> income;
-   static BufferedImage step3Card;
+   static BufferedImage stepCard;
 
     static HashMap<Integer, HashMap<Type, Integer>> resupply;
         //first integer is step
@@ -251,7 +252,7 @@ public class Manager{
         BufferedImage p44 = ImageIO.read(Panel.class.getResource("/plantCards/plant44.png"));
         BufferedImage p46 = ImageIO.read(Panel.class.getResource("/plantCards/plant46.png"));
         BufferedImage p50 = ImageIO.read(Panel.class.getResource("/plantCards/plant50.png"));
-        BufferedImage stepCard = ImageIO.read(Panel.class.getResource("/plantCards/step3Card.png"));
+        stepCard = ImageIO.read(Panel.class.getResource("/plantCards/step3Card.png"));
         }
         catch(Exception e) {
             System.out.println("Error");
@@ -289,7 +290,7 @@ try {
         HashMap<Type, Integer> ResourceMap = new HashMap<>();
          ResourceMap.put(resourceType, resourceAmount);
         
-        PowerPlant step3Card = new PowerPlant(3, 0, null, 0, stepCard, true, true, null, 1);
+        PowerPlant step3Card = new PowerPlant(3, 0, new HashMap<Type,Integer>(), 0, stepCard, true, true, new Rectangle(), 1);
         powerPlantDeck.add(new PowerPlant(number, citiesPowered,  ResourceMap, resourceAmount, null,true, true, null, 1));
     }
     myReader.close();
@@ -513,7 +514,7 @@ try {
                     powerPlantDeck.add(step3Card); // Move to end of deck
                 }
         } else if(phase==5) {
-            powerPlantMarket.remove(step3Card);
+            powerPlantMarket.remove(stepCard);
             powerPlantMarket.pollFirst();
             Collections.shuffle(powerPlantDeck);
             

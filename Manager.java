@@ -190,16 +190,27 @@ public class Manager{
         TreeMap<Integer,ArrayList<Resource>> subMarket = market.get(t); // The market for only type t
         Iterator<Integer> marketIter = subMarket.descendingKeySet().iterator();// used to iterate backwards through the market
         int price = marketIter.next();// the price section currently being looked at
+
         while(price>0)//iterate through all of the price sections
         {
-            int capacity = marketCapacity(t,price);// how many resources can be of a certain price
+            int capacity = marketCapacity(t,price);
+            int xCoord = 0;// slope = -84; Multiply this by 7/10
+            switch(t)
+            {   // ratio between the width of the map (currently 700) and the xCoord (1000-700)+ (700)(Ratio)
+                case Type.COAL: xCoord = 955;// 189/202    
+                case Type.OIL: xCoord = 965;// 384/404
+                case Type.URANIUM: xCoord = 965;// 384/404
+                case Type.GARBAGE: xCoord = 983;// 197/202
+            }
+            // how many resources can be of a certain price
             ArrayList<Resource> subTile = subMarket.get(price);// all the resources of that price
             for(int j=0;j<capacity;j++)// iterate through subTile
             {
                 if(subTile.size()!=capacity)// redundancy to make sure ArrayList does not overflow
                 //if this still does not work, I will switch back to Resource[]
                 {
-                subTile.add(new Resource(t));
+                Resource add = new Resource(t,null,false,true,new Rectangle(Frame.panel.x(xCoord),Frame.panel.y((price*330)+(j*65)),Frame.panel.x(14),Frame.panel.y(30)),1);
+                subTile.add(add);
                 reserves--;//this will update the reserves in resourceNotInMarket
                 }
             }
@@ -356,7 +367,7 @@ try {
 
     }
 
-   public static void purchaseRes(Type t, int re) { // re is the amount of that certain resource they bought 
+   public static boolean purchaseRes(Type t, int re) { // re is the amount of that certain resource they bought 
         TreeMap<Integer, ArrayList<Resource>> subMarket = market.get(t);
         int totalCost = 0;
         ArrayList<Resource> purchased = new ArrayList<>();
@@ -375,7 +386,7 @@ try {
         // Check if we got enough resources
         if (purchased.size() < re) {
             System.out.println("Not enough resources in market");
-            return;
+            return false;
         }
         
         // Check if player has enough elektros
@@ -391,7 +402,9 @@ try {
             currPlayer.updateElektros(-totalCost);
         } else {
             System.out.println("Not enough elektros to purchase resource");
+            return false;
         }
+        return true;
     } 
     
 /*1.bid method

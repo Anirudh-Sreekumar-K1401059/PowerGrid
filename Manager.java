@@ -9,19 +9,19 @@ import java.io.FileNotFoundException;
 
 public class Manager{
 
-    static ArrayList<PowerPlant> powerPlantDeck;
-    static HashMap<Type, TreeMap<Integer,ArrayList<Resource>>> market;
-    static HashMap<Type, Integer> resourceNotInMarket;
-    static HashMap<Integer, Integer> income;
+    static ArrayList<PowerPlant> powerPlantDeck = new ArrayList<PowerPlant>();
+    static HashMap<Type, TreeMap<Integer,ArrayList<Resource>>> market = new HashMap<Type, TreeMap<Integer,ArrayList<Resource>>>();
+    static HashMap<Type, Integer> resourceNotInMarket = new HashMap<Type, Integer>();
+    static HashMap<Integer, Integer> income = new HashMap<Integer, Integer>();
     static BufferedImage stepCard;
-    static BufferedImage p11, p12, p13, p14, p15, p16, p17, p18, p19, p20, p21, p22, p23, p24, p25, p26, p27, p28, p29, p30, p31, p32, p33, p34, p35, p36, p37, p38, p39, p40, p44, p46, p50;
+    static BufferedImage p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16, p17, p18, p19, p20, p21, p22, p23, p24, p25, p26, p27, p28, p29, p30, p31, p32, p33, p34, p35, p36, p37, p38, p39, p40, p44, p46, p50;
     static HashMap<Integer, HashMap<Type, Integer>> resupply;
         //first integer is step
         //hashmap is <the resource, the amount needed to be put back into the market>
 
     static PowerPlant step3Card;
     static ArrayList<Player> playerOrder;
-    static TreeSet<PowerPlant> powerPlantMarket;
+    static TreeSet<PowerPlant> powerPlantMarket = new TreeSet<PowerPlant>();
     static PowerPlant currentAuctionPlant;
     static ArrayList<City> cities;
     static LinkedList<String> selectedRegions;
@@ -66,7 +66,7 @@ public class Manager{
     
     public static void setGame(){
     	setPlayers();
-        setCities(selectedRegions);
+        //setCities(selectedRegions);
         setResources();
         setPowerPlants();
         createResupply();  
@@ -75,6 +75,7 @@ public class Manager{
     }
 
     public static void setPlayers() {
+        playerOrder = new ArrayList<Player>();
     	Player red = new Player ("red");
     	Player blue = new Player ("blue");
     	Player yellow = new Player ("yellow");
@@ -236,6 +237,14 @@ public class Manager{
     
     public static void setPowerPlants() {
         try{
+            p3 = ImageIO.read(Panel.class.getResource("/plantCards/plant3.png"));
+            p4 = ImageIO.read(Panel.class.getResource("/plantCards/plant4.png"));
+            p5 = ImageIO.read(Panel.class.getResource("/plantCards/plant5.png"));
+            p6 = ImageIO.read(Panel.class.getResource("/plantCards/plant6.png"));
+            p7 = ImageIO.read(Panel.class.getResource("/plantCards/plant7.png"));
+            p8 = ImageIO.read(Panel.class.getResource("/plantCards/plant8.png"));
+            p9 = ImageIO.read(Panel.class.getResource("/plantCards/plant9.png"));          
+            p10 = ImageIO.read(Panel.class.getResource("/plantCards/plant10.png"));
          p11 = ImageIO.read(Panel.class.getResource("/plantCards/plant11.png"));
          p12 = ImageIO.read(Panel.class.getResource("/plantCards/plant12.png"));
          p13 = ImageIO.read(Panel.class.getResource("/plantCards/plant13.png"));
@@ -285,7 +294,7 @@ try {
         if (line.isEmpty()) 
 			continue; 
 
-        String[] parts = line.split(" | ");
+        String[] parts = line.split(" \\| ");
         
         int citiesPowered = Integer.parseInt(parts[0].trim());
         int number = Integer.parseInt(parts[1].trim()); // this is the resource number and the initial bidding amount
@@ -318,12 +327,19 @@ try {
 }
 
         //AYAAN: make sure to add the power plants to the deck in the correct order, and make sure the first 8 power plants are added to the market and are displayable and clickable (make sure whens setting up the auction ,its in acending order and then shuffle the rest of the deck and add it to the class variable powerPlantDeck)
-
-    }
+//Powereplants 3-15 are added to the market
+        for(int i=0;i<15;i++)
+        {
+            powerPlantMarket.add(powerPlantDeck.get(i));
+        }
+        Collections.shuffle(powerPlantDeck.subList(15, powerPlantDeck.size()));
     
-    public static void auction() {
-        
-    }
+    
+     for(int i=0;i<15;i++)
+        {
+            powerPlantDeck.remove(0);
+        }
+    } //end of method setPowerPlants
 
     public static String purchaseCity(City wanted) {
        //if player has bought at least one city:
@@ -432,20 +448,26 @@ try {
     }
 
 
-    
-
     public static void determineOrder() {
-        	//sort player order based on the power plant they have with the lowest number
-        	//if there is a tie, sort based on the second lowest plant, and so on
-        	//if there is still a tie, sort randomly
-        	Collections.sort(playerOrder);
-        	Collections.shuffle(playerOrder);
-        	currPlayer = playerOrder.get(0);
-        	turn = 1;
-        	System.out.println("Player order: ");
-        	for (Player player : playerOrder) {
-        		System.out.println(player.getColor());
-        	}
+        //Determine order is based on cities, and highest powerplant card.
+        Collections.sort(playerOrder, new Comparator<Player>() {
+            @Override
+            public int compare(Player a, Player b) {
+                int cityCompare = Integer.compare(b.myCities.size(), a.myCities.size());
+                if (cityCompare != 0) {
+                    return cityCompare;
+                }
+                int aMax = a.getMyPlants().isEmpty() ? Integer.MIN_VALUE : a.maxPlant().getNum();
+                int bMax = b.getMyPlants().isEmpty() ? Integer.MIN_VALUE : b.maxPlant().getNum();
+                return Integer.compare(bMax, aMax);
+            }
+        });
+        currPlayer = playerOrder.get(0);
+        turn = 1;
+        System.out.println("Player order: ");
+        for (Player player : playerOrder) {
+            System.out.println(player.getColor());
+        }
     }
 
     public static void earnMoney() {
@@ -521,17 +543,19 @@ try {
             PowerPlant p = null;
             for(int i=0;i<powerPlantMarket.size()/2;i++)
             {
-                if(martketIter.hasNext())
+                if(martketIter.hasNext()) {
                     p = martketIter.next();
-                p.setLocation(Frame.panel.x((i+1)*110), Frame.panel.y(250));
-                p.clickable = true;
+                    p.setLocation(Frame.panel.x((i+1)*110), Frame.panel.y(250));
+                    p.clickable = true;
+                }
             } 
             for(int i=0;i<powerPlantMarket.size()/2;i++)
             {
-                if(martketIter.hasNext())
+                if(martketIter.hasNext()) {
                     p = martketIter.next();
-                p.setLocation(Frame.panel.x((i+1)*110), Frame.panel.y(360));
-                p.clickable = phase==3;
+                    p.setLocation(Frame.panel.x((i+1)*110), Frame.panel.y(360));
+                    p.clickable = phase==3;
+                }
             } 
         }
 
@@ -642,6 +666,4 @@ try {
             System.out.println("Game Over! The winner is: " + winner.getColor()); //repplace with with opening the end game panel 
         }
     }
-
-
 }

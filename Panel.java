@@ -28,8 +28,10 @@ TreeSet<DisplayElement> startScreen = new TreeSet<DisplayElement>(); //The scree
 TreeSet<DisplayElement> regionSelectScreen = new TreeSet<DisplayElement>(); //Get to this screen by clicking the start button
 TreeSet<DisplayElement> biddingScreen = new TreeSet<DisplayElement>(); //Get to this screen by having 4 passes in a row
 TreeSet<DisplayElement> replacePlantScreen = new TreeSet<DisplayElement>(); //Screen that replaces the Player's powerplants
+TreeSet<DisplayElement> mainScreen = new TreeSet<DisplayElement>(); //The screen that the player sees when it is their turn, shows their plants and resources and stuff
 
 public Panel() {
+	Manager.setGame();
 	
 	BufferedImage background = null;
 	BufferedImage map = null;
@@ -42,8 +44,7 @@ public Panel() {
 	 catch(Exception e){
 		 System.out.println(e);
 	 }
-	
-	
+
 							 
 	/* This is a copyable template to use.
 	 * 
@@ -100,8 +101,8 @@ public Panel() {
 			public void click(MouseEvent e) //code for the start button
 			{
 				//Add setup code here
-				Manager.setGame();
-				setScreen(biddingScreen); 
+				
+				setScreen(regionSelectScreen); 
 				playerIterator = Manager.playerOrder.iterator();
 				secondaryPlayerIterator = Manager.playerOrder.iterator();
 				Manager.currPlayer = secondaryPlayerIterator.next();
@@ -161,7 +162,7 @@ public Panel() {
 					if(!playerIterator.hasNext())
 					{
 						Manager.setCities(activeRegions);
-						setScreen(regionSelectScreen);
+						setScreen(biddingScreen);
 						playerIterator = Manager.playerOrder.iterator();
 					}	
 					notFirstClick = true;	
@@ -200,8 +201,9 @@ public Panel() {
 					}	
 						if(!playerIterator.hasNext())
 					{
-						Manager.setCities(activeRegions);
-					}	
+				Manager.setCities(activeRegions);
+						setScreen(biddingScreen);
+						playerIterator = Manager.playerOrder.iterator();					}	
 					notFirstClick = true;	
 					
 					
@@ -238,6 +240,8 @@ public Panel() {
 						if(!playerIterator.hasNext())
 					{
 						Manager.setCities(activeRegions);
+						setScreen(biddingScreen);
+						playerIterator = Manager.playerOrder.iterator();
 					}	
 					notFirstClick = true;	
 					
@@ -278,6 +282,8 @@ public Panel() {
 						if(!playerIterator.hasNext())
 					{
 						Manager.setCities(activeRegions);
+						setScreen(biddingScreen);
+						playerIterator = Manager.playerOrder.iterator();
 					}	
 					notFirstClick = true;	
 					
@@ -290,6 +296,7 @@ public Panel() {
 	blueRegion = new DisplayElement(null,true ,true ,new Rectangle(500,500,100,100), 0)
 																			 
 			{
+				//put the rectangles in the correct location on the screen, and make sure that they are the correct size
 				@Override  
 				public void draw(Graphics2D g) 
 				{
@@ -315,6 +322,8 @@ public Panel() {
 						if(!playerIterator.hasNext())
 					{
 						Manager.setCities(activeRegions);
+						setScreen(biddingScreen);
+						playerIterator = Manager.playerOrder.iterator();
 					}	
 					notFirstClick = true;	
 					
@@ -352,6 +361,8 @@ public Panel() {
 					if(!playerIterator.hasNext())
 					{
 						Manager.setCities(activeRegions);
+						setScreen(biddingScreen);
+						playerIterator = Manager.playerOrder.iterator();
 					}	
 					notFirstClick = true;	
 					
@@ -426,6 +437,7 @@ public Panel() {
 							setScreen(replacePlantScreen);
 						else
 							Manager.highestBidder.getMyPlants().add(Manager.currentAuctionPlant);
+						Manager.currentAuctionPlant.setLocation(0,0);//add the actual locations later
 						Manager.highestBidder.canChooseAuctionPlant = false;
 						
 						Manager.updateMarket();
@@ -450,7 +462,7 @@ public Panel() {
 						if((firstRound&&i==Manager.playerOrder.size())||(Manager.numPasses==4))
 						{ 
 							if(firstRound) Manager.determineOrder();
-							setScreen(Manager.playerOrder.get(0).playerScreen);
+							setScreen(Manager.playerOrder.get(3).playerScreen);
 							for(Player p : Manager.playerOrder) p.canChooseAuctionPlant = true;
 							Manager.numPasses = 0; 
 							
@@ -518,9 +530,24 @@ public Panel() {
 				}
 
 			};
+
+	DisplayElement stats = new DisplayElement(null,true ,true,new Rectangle(60,0,0,0), j++)
+																			 
+			{ 
+				@Override  
+				public void draw(Graphics2D g) 
+				{
+					g.drawString("Phase: "+Manager.phase+"\nStep: "+Manager.step+"\nElectro: "+Manager.currPlayer.getElektros()+"\n\tPowerplants:/n/n/n/n/n/nResources:",x(this.x),y(this.y));
+				}
+				
+			};
 			
 	Resource buyCoal  = new Resource(Type.COAL,null,true,true,new Rectangle(),1);
+	Resource buyOil  = new Resource(Type.OIL,null,true,true,new Rectangle(),1);
+	Resource buyGarbage  = new Resource(Type.GARBAGE,null,true,true,new Rectangle(),1);
+	Resource buyUranium  = new Resource(Type.URANIUM,null,true,true,new Rectangle(),1);
 
+	mainScreen.addAll(Arrays.asList(currentPlayer,sideMap,buyCoal,buyOil,buyGarbage,buyUranium,stats));
 	
 		
 	while(j<4)
@@ -545,21 +572,14 @@ public Panel() {
 			}
 	);
 
-		Manager.playerOrder.get(j).playerScreen.add 
-	(
-			new DisplayElement(null,true ,true,new Rectangle(60,0,0,0), j++)
-																			 
-			{
-				@Override  
-				public void draw(Graphics2D g) 
-				{
-					g.drawString("Phase: "+Manager.phase+"\nStep: "+Manager.step+"\nElectro: "+Manager.currPlayer.getElektros()+"\n\tPowerplants:/n/n/n/n/n/nResources:",x(this.x),y(this.y));
-				}
-				
-			}
-	);
+	
+			
+	
+
+	
 
 	}
+
 	replacePlantScreen.add 
 	(
 			new DisplayElement(null,false ,true,new Rectangle(450,20,0,0), 1)

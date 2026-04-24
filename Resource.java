@@ -3,7 +3,6 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-
 import javax.swing.JOptionPane;
 
 public class Resource extends DisplayElement 
@@ -51,9 +50,5 @@ public class Resource extends DisplayElement
 					}
 		
 	}
-
-	
-	
-	
 	
 }

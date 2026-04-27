@@ -1,3 +1,4 @@
+import java.awt.event.MouseEvent;
 import java.util.*;
 
 
@@ -31,5 +32,11 @@ public class City {
     }
     public boolean isOpen(){
        return true;
+    }
+
+    public void click(MouseEvent e)
+    {
+        if(Manager.phase==3&&this.isOpen())
+        Manager.purchaseCity(this);
     }
 }

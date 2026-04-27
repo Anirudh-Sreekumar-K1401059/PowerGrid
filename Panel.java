@@ -9,7 +9,7 @@ public class Panel extends JPanel implements MouseListener{
 	
 public static int scaleX, scaleY;
 boolean notFirstClick = false, firstRound = true;
-Iterator<Player> playerIterator, secondaryPlayerIterator;
+ListIterator<Player> playerIterator, secondaryPlayerIterator;
 LinkedList<DisplayElement> listOfRegions = new LinkedList<DisplayElement>();
 LinkedList<String> activeRegions = new LinkedList<String>();
 String bidInpuString = "weed eater";
@@ -29,6 +29,9 @@ TreeSet<DisplayElement> regionSelectScreen = new TreeSet<DisplayElement>(); //Ge
 TreeSet<DisplayElement> biddingScreen = new TreeSet<DisplayElement>(); //Get to this screen by having 4 passes in a row
 TreeSet<DisplayElement> replacePlantScreen = new TreeSet<DisplayElement>(); //Screen that replaces the Player's powerplants
 TreeSet<DisplayElement> mainScreen = new TreeSet<DisplayElement>(); //The screen that the player sees when it is their turn, shows their plants and resources and stuff
+TreeSet<DisplayElement> discardedPlants = new TreeSet<DisplayElement>();
+TreeSet<DisplayElement> previousScreen = new TreeSet<DisplayElement>();
+TreeSet<DisplayElement> winnerScreen = new TreeSet<DisplayElement>();
 
 public Panel() {
 	Manager.setGame();
@@ -103,8 +106,8 @@ public Panel() {
 				//Add setup code here
 				
 				setScreen(regionSelectScreen); 
-				playerIterator = Manager.playerOrder.iterator();
-				secondaryPlayerIterator = Manager.playerOrder.iterator();
+				playerIterator = (ListIterator<Player>) Manager.playerOrder.iterator();
+				secondaryPlayerIterator = (ListIterator<Player>) Manager.playerOrder.iterator();
 				Manager.currPlayer = secondaryPlayerIterator.next();
 			}
 		}
@@ -163,7 +166,7 @@ public Panel() {
 					{
 						Manager.setCities(activeRegions);
 						setScreen(biddingScreen);
-						playerIterator = Manager.playerOrder.iterator();
+						playerIterator = (ListIterator<Player>) Manager.playerOrder.iterator();
 					}	
 					notFirstClick = true;	
 					
@@ -203,7 +206,7 @@ public Panel() {
 					{
 				Manager.setCities(activeRegions);
 						setScreen(biddingScreen);
-						playerIterator = Manager.playerOrder.iterator();					}	
+						playerIterator = (ListIterator<Player>) Manager.playerOrder.iterator();					}	
 					notFirstClick = true;	
 					
 					
@@ -241,7 +244,7 @@ public Panel() {
 					{
 						Manager.setCities(activeRegions);
 						setScreen(biddingScreen);
-						playerIterator = Manager.playerOrder.iterator();
+						playerIterator = (ListIterator<Player>) Manager.playerOrder.iterator();
 					}	
 					notFirstClick = true;	
 					
@@ -283,7 +286,7 @@ public Panel() {
 					{
 						Manager.setCities(activeRegions);
 						setScreen(biddingScreen);
-						playerIterator = Manager.playerOrder.iterator();
+						playerIterator = (ListIterator<Player>) Manager.playerOrder.iterator();
 					}	
 					notFirstClick = true;	
 					
@@ -323,7 +326,7 @@ public Panel() {
 					{
 						Manager.setCities(activeRegions);
 						setScreen(biddingScreen);
-						playerIterator = Manager.playerOrder.iterator();
+						playerIterator = (ListIterator<Player>) Manager.playerOrder.iterator();
 					}	
 					notFirstClick = true;	
 					
@@ -362,7 +365,7 @@ public Panel() {
 					{
 						Manager.setCities(activeRegions);
 						setScreen(biddingScreen);
-						playerIterator = Manager.playerOrder.iterator();
+						playerIterator = (ListIterator<Player>) Manager.playerOrder.iterator();
 					}	
 					notFirstClick = true;	
 					
@@ -462,7 +465,9 @@ public Panel() {
 						if((firstRound&&i==Manager.playerOrder.size())||(Manager.numPasses==4))
 						{ 
 							if(firstRound) Manager.determineOrder();
-							setScreen(Manager.playerOrder.get(3).playerScreen);
+							Manager.phaseOver();
+							playerIterator = Manager.playerOrder.listIterator(3);
+							setScreen(mainScreen);
 							for(Player p : Manager.playerOrder) p.canChooseAuctionPlant = true;
 							Manager.numPasses = 0; 
 							
@@ -474,7 +479,7 @@ public Panel() {
 					if(playerIterator.hasNext())
 					Manager.currPlayer = playerIterator.next();
 					else
-					playerIterator = Manager.playerOrder.iterator();
+					playerIterator = (ListIterator<Player>) Manager.playerOrder.iterator();
 				
 				}
 			};
@@ -515,10 +520,10 @@ public Panel() {
 					if(playerIterator.hasNext())
 					Manager.currPlayer = playerIterator.next();
 					else
-					playerIterator = Manager.playerOrder.iterator();
+					playerIterator = (ListIterator<Player>) Manager.playerOrder.iterator();
 
 				}
-			}
+			} 
 	);
 
 	DisplayElement sideMap = new DisplayElement(map,false,true ,new Rectangle(300,0,700,1000), 0)														 
@@ -541,13 +546,41 @@ public Panel() {
 				}
 				
 			};
+
+	DisplayElement nextPlayer = new DisplayElement(null,true ,true,new Rectangle(400,800,200,100), j++)
+																			 
+			{ 
+				@Override  
+				public void draw(Graphics2D g) 
+				{
+					g.setColor(Color.BLACK);
+				g.fillRect(x(this.x),y(this.y),x(this.width),y(this.height));
+				g.setColor(Color.WHITE);
+				g.setFont(new Font("Arial",Font.BOLD,x(50)));
+				g.drawString("Next Player", x(this.x+25), y(this.y+75));
+				}
+
+				public void click(MouseEvent e)
+				{
+					//Power the cities based on what the player chose. The method in this version does not work
+					if(Manager.phase==4) Manager.earnMoney();
+					if(playerIterator.hasPrevious())
+						Manager.currPlayer = playerIterator.previous();
+					else 
+					{
+						Manager.phaseOver();
+						playerIterator = (ListIterator<Player>) Manager.playerOrder.iterator();
+					}
+				}
+				
+			};
 			
 	Resource buyCoal  = new Resource(Type.COAL,null,true,true,new Rectangle(),1);
 	Resource buyOil  = new Resource(Type.OIL,null,true,true,new Rectangle(),1);
 	Resource buyGarbage  = new Resource(Type.GARBAGE,null,true,true,new Rectangle(),1);
 	Resource buyUranium  = new Resource(Type.URANIUM,null,true,true,new Rectangle(),1);
 
-	mainScreen.addAll(Arrays.asList(currentPlayer,sideMap,buyCoal,buyOil,buyGarbage,buyUranium,stats));
+	mainScreen.addAll(Arrays.asList(currentPlayer,sideMap,buyCoal,buyOil,buyGarbage,buyUranium,stats,nextPlayer));
 	
 		
 	while(j<4)
@@ -661,6 +694,14 @@ public int x(int in) { return (int)((getWidth() * in) / 1000.0); }
 public int y(int in) { return (int)((getHeight() * in) / 1000.0); }
 
 public void mouseClicked(MouseEvent e) {
+	if(SwingUtilities.isRightMouseButton(e))
+	{
+		
+		if(discardedPlants!=currentScreen)
+			previousScreen = setScreen(discardedPlants);
+		else
+			setScreen(previousScreen);
+	}
 int x = (int)(e.getX() * 1000.0 / getWidth());
 int y = (int)(e.getY() * 1000.0 / getHeight());
 DisplayElement ptr = new DisplayElement(null,false,false,null,0);

@@ -613,7 +613,7 @@ try {
         }
     }
 
-   public  void phaseOver() {
+   public static void phaseOver() {
         if (phase == 1) {
             // Check if all players have passed in the auction phase
             if (turn==4) {
@@ -652,7 +652,7 @@ try {
         }
     }
 
-    public void gameOver() {
+    public static void gameOver() {
         if (phase == 4) {
             Player winner = null;
             int maxCities = -1;
